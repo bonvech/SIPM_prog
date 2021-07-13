@@ -6,45 +6,47 @@ int ReadStationInfo(int key);
 void SaveConfigHost(void);
 //void SaveConfigStation(void);
 //====================================================================
+
+/// @param key управляет версией конфиг файла для чтения
+/// 0 - стандартный SIPM_01.CNF
 int ReadStationInfo(int key)
 {
-char fname[200];
-char st[200];
-FILE *hf;
-const int max_length=80;
+    char fname[200];
+    char st[200];
+    FILE *hf;
+    const int max_length=80;
 
-char tmpline[max_length];
-char line[max_length];
-int  i=0;
-int lng =0;
-int pos=0;
-int flag=0;
-char type[200];
-int num=0;
-//char IPsock[16];
-//int IDsock= 0;
-//int ClNum[4] = {0,0,0,0};
-//IPsock[0]=NULL;
-//IPsock[0]=0;
-//int cr=0;
-int data=0;
-int det=0,thl=0,thh=0,off=0,len=0,smo=0,act=0;
-float power=0;
-//int thm=0;
-int m[12];
-int matrix=0;
+    char tmpline[max_length];
+    char line[max_length];
+    int  i=0;
+    int lng =0;
+    int pos=0;
+    int flag=0;
+    char type[200];
+    int num=0;
+    //char IPsock[16];
+    //int IDsock= 0;
+    //int ClNum[4] = {0,0,0,0};
+    //IPsock[0]=NULL;
+    //IPsock[0]=0;
+    //int cr=0;
+    int data=0;
+    int det=0,thl=0,thh=0,off=0,len=0,smo=0,act=0;
+    float power=0;
+    //int thm=0;
+    int m[12];
+    int matrix=0;
 
 
-int full_list=0;
+    int full_list=0;
 
     ffstat = fopen(statfile,"at");
     fprintf(ffstat,"\nConfiguration of SIPM:\n");
 
 
-    for(int ii=0;ii<NMUONREADY;ii++) {
+    for(int ii=0;ii<NMUONREADY;ii++)  {
 
 	if (SIPM[ii].active==-1) continue;
-
 	num = SIPM[ii].Number;
 
 	if (key==0) {

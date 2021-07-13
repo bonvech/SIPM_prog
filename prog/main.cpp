@@ -39,21 +39,12 @@
 
 #include <pthread.h>
 
-
-
 struct timeb Now;
 struct tm t;
 
-
-
 //#include <semaphore.h>
 
-
 #define NOT_MEGA
-
-
-
-
 
 /*
 
@@ -228,132 +219,122 @@ char summname[120];
 //pthread_t  thread[100];
 
 //====================================================================
-int main(int argc, char *argv[]) 
+int main(int argc, char *argv[])
 {
 
-/*
-int  add=0xC0000083;
-int  addadd=0;
-int trigg[32];
+    /*
+    int  add=0xC0000083;
+    int  addadd=0;
+    int trigg[32];
 
-	add ^= 0xFFFFFFFF;
-	for(int ii=0;ii<32;ii++) {
-//	    addadd = (add>>ii);
-	    addadd = add/(int)pow(2,ii);
-	    trigg[ii] = ( addadd & 0x1);
-	    printf("ii=%i   trigg[ii]=%i    add=0x%X\n",ii,trigg[ii], addadd);
-	}
-press_any_key();
-*/
+    	add ^= 0xFFFFFFFF;
+    	for(int ii=0;ii<32;ii++) {
+    //	    addadd = (add>>ii);
+    	    addadd = add/(int)pow(2,ii);
+    	    trigg[ii] = ( addadd & 0x1);
+    	    printf("ii=%i   trigg[ii]=%i    add=0x%X\n",ii,trigg[ii], addadd);
+    	}
+    press_any_key();
+    */
 //------------------------------------------------------------
-/*
-	SIPM[0].Number=1;
-	SIPM[0].active=1;
-//	SIPM[0].IsConnected=1;
-	    memcpy(SIPM[0].IPname,"192.168.1.200",16);
-	    SIPM[0].Port =3000;
+    /*
+    	SIPM[0].Number=1;
+    	SIPM[0].active=1;
+    //	SIPM[0].IsConnected=1;
+    	    memcpy(SIPM[0].IPname,"192.168.1.200",16);
+    	    SIPM[0].Port =3000;
 
-	SIPM[0].Connect(&SIPM[0].sd_control,SIPM[0].IPname,SIPM[0].Port);
-printf("sd_control = %i\n", SIPM[0].sd_control);
+    	SIPM[0].Connect(&SIPM[0].sd_control,SIPM[0].IPname,SIPM[0].Port);
+    printf("sd_control = %i\n", SIPM[0].sd_control);
 
-int IDnum=0;
-	SIPM[0].Check_HW_ID(&IDnum);
-	printf("HW ID num = 0x%X\n",(unsigned int) IDnum);
+    int IDnum=0;
+    	SIPM[0].Check_HW_ID(&IDnum);
+    	printf("HW ID num = 0x%X\n",(unsigned int) IDnum);
 
-	SIPM[0].Check_Serial_ID(&IDnum);
-	printf("Serial ID num = 0x%X\n",(unsigned int) IDnum);
+    	SIPM[0].Check_Serial_ID(&IDnum);
+    	printf("Serial ID num = 0x%X\n",(unsigned int) IDnum);
 
-	SIPM[0].Check_Board_ID(&IDnum);
-	printf("Board ID num = 0x%X\n",(unsigned int) IDnum);
+    	SIPM[0].Check_Board_ID(&IDnum);
+    	printf("Board ID num = 0x%X\n",(unsigned int) IDnum);
 
-	SIPM[0].Test1(1);
-	SIPM[0].GetTest1(&IDnum);
+    	SIPM[0].Test1(1);
+    	SIPM[0].GetTest1(&IDnum);
 
-	SIPM[0].InitMinusPower(1,1);
-	SIPM[0].SetMinusPower(1,1);
+    	SIPM[0].InitMinusPower(1,1);
+    	SIPM[0].SetMinusPower(1,1);
 
-	SIPM_Init();
+    	SIPM_Init();
 
-	    SIPM[0].Port =3007;
+    	    SIPM[0].Port =3007;
 
-	SIPM[0].Connect(&SIPM[0].sd_data,SIPM[0].IPname,SIPM[0].Port);
-printf("sd_data = %i\n", SIPM[0].sd_data);
+    	SIPM[0].Connect(&SIPM[0].sd_data,SIPM[0].IPname,SIPM[0].Port);
+    printf("sd_data = %i\n", SIPM[0].sd_data);
 
-	fReadSock = READ_socket;
-	pthread_create (&thread[SIPM[0].Number], 0, fReadSock,&SIPM[0].Number); 
+    	fReadSock = READ_socket;
+    	pthread_create (&thread[SIPM[0].Number], 0, fReadSock,&SIPM[0].Number);
 
-	SIPM[0].StopData();
-	usleep(100000);
-	SIPM[0].ClearData();
-	usleep(100000);
+    	SIPM[0].StopData();
+    	usleep(100000);
+    	SIPM[0].ClearData();
+    	usleep(100000);
 
 
-	SIPM[0].Stop_socket = 0;
-	SIPM[0].StartData();
+    	SIPM[0].Stop_socket = 0;
+    	SIPM[0].StartData();
 
-int step=0;
+    int step=0;
 
-while (step<100) {
+    while (step<100) {
 
-sleep(1);
-step++;
+    sleep(1);
+    step++;
 
-printf("step %i\n",step);
+    printf("step %i\n",step);
 
-}
-	SIPM[0].Stop_socket = 1;
-*/
+    }
+    	SIPM[0].Stop_socket = 1;
+    */
 //-----------------------
 
 
-	SIPM[0].Number=1;
-	SIPM[0].active=1;
+    SIPM[0].Number=1; /// number of SiPM в имени конфиг файл
+    SIPM[0].active=1;
 
-	Create_Dir_Files();  // create_dir.c
+    Create_Dir_Files();  // create_dir.c
 
-	ReadStopTime(0);  // stoprun.c
+    ReadStopTime(0);  // stoprun.c
 
 
 //	ReadConfigFile(Thresh,HV);  // readconf.c
 //	ReadHostInfo();  // config_read.c
-	ReadStationInfo(0);  // config_read.c
+    ReadStationInfo(0);  // config_read.c
 
 //press_any_key();
 //exit(1);
 
+//	Init_PsHOST();  //
 
-//	Init_PsHOST();  //  
-
-	Connect_SIPM();  // connect.c
-
-
-
+    ///  Создать все соединения
+    Connect_SIPM();  // connect.c
 
 #ifndef NOT_MEGA
 //	Test_Sync_Time();  //  settime.c
 #endif
 
+    /// Инициализировать все устройства
+    Init_SIPM();  //sipm-init.c
 
-	Init_SIPM();  //sipm-init.c
 
-	menu_MAIN();  // main_MENU.c
+    /// Основная программа
+    menu_MAIN();  // main_MENU.c
 
 //	UnConnect();
-
-
-
-
-
 //	Accusition();
-
 //	printf("\n           PLEASE, WAIT   2 sec\n\n");
 //	sleep(2);
-
 //	MainBlock(nnn,Thresh,1);  // mainblck.c
-
 //	UnConnect();  // vme-lib.c
-
-return 1;
+    return 1;
 }
 //====================================================================
 

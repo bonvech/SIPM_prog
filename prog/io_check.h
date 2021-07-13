@@ -1,3 +1,7 @@
+/// класс для общения с любым электронным девайсом
+///
+///
+
 #ifndef __IO_CHECK__
 #define __IO_CHECK__
 
@@ -17,386 +21,427 @@
 //#include "iact-rs485.c"
 
 //====================================================================
-class IO_device {
+class IO_device
+{
+  public:
 
-public:
+    char IPname[16]; ///< IP address
+    int Port;        ///< порт
+    int sd_control;  ///< идентификатор сокета
+    int sd_data;     ///< сокет данных
+    int sd_current;  ///< сокет токов
+    int IsConnected; ///< 1 if connected, -1 not connected (by default)
+    int active;      ///< 1 if connected, -1 not connected (by default)
+    int Number;      ///< -1 not used (by default)
+    int Type;        ///< -1 by default
+    char TypeName[200]; ///< "SiPM" - для вывода имени устройства в ошибках
 
-
-char IPname[16];
-int Port;
-int sd_control;
-int sd_data;
-int sd_current;
-int IsConnected;
-int active;
-int Number;
-int Type;
-char TypeName[200];
-
-FILE *fdat;
-FILE *fcur;
-FILE *fped;
-FILE *frate;
-FILE *fcuco;
-char filename[80];
-
-
-	IO_device()
-	{
+    FILE *fdat;
+    FILE *fcur;
+    FILE *fped;
+    FILE *frate;
+    FILE *fcuco;
+    char filename[80];
+    /// constructor
+    IO_device()
+    {
 //	    strcpy(IPname,"192.168.1.1");
 //	    Port=3000;
-	    sd_control=-1;
-	    sd_data=-1;
-	    sd_current=-1;
-	    IsConnected=-1;
-	    active=-1;
-	    Number=-1;
-	    Type=-1;
-	    strcpy(TypeName,"");
-	};
-	~IO_device(){};
+        sd_control=-1;
+        sd_data=-1;
+        sd_current=-1;
+        IsConnected=-1;
+        active=-1;
+        Number=-1;
+        Type=-1;
+        strcpy(TypeName,"");
+    };
+
+    /// destructor
+    ~IO_device() {};
 
 //	bool CreateSockets(void);
-	bool Connect(int *nsid, char *fAddress, int fPort);
-	bool UnConnect (void);
-	bool Reset_Sockets ( void);
+    /**
+    создать сокет, соединиться с устройством
+    @param nsid      тип сокета (данных, токов, control)
+    @param fAddress  IP адрес устр-ва для соединения с ним
+    @param fPort     порт устройства назначения
+    @return          номер сокета
+    **/
+    bool Connect(int *nsid, char *fAddress, int fPort);
 
-	int CloseFile(void);
-	int OpenNewFile(char *path, int por, int flag );
+    /// закрыть все сокеты
+    bool UnConnect (void);
+    bool Reset_Sockets ( void);
 
-	int IO_check(int flag, int sidi, unsigned long Address, byte *Data, int NumBytes, int nsid, int Number, char Type[]);
-	int RDbuf(int nsid, byte *buf, int NumBytes, int flag, unsigned long Addr, int Number, char Type[]);
+    int CloseFile(void);
+    int OpenNewFile(char *path, int por, int flag );
 
-	int WR_BSM(int Addr, byte *Data, int NumBytes);
-	int RD_BSM(int Addr, byte *Data, int NumBytes);
+    /// общение между компьютером и железом - основная универсальная функция
+    int IO_check(int flag, int sidi, unsigned long Address, byte *Data, int NumBytes, int nsid, int Number, char Type[]);
+    int RDbuf(int nsid, byte *buf, int NumBytes, int flag, unsigned long Addr, int Number, char Type[]);
 
-	int WR_IO(int sidi, unsigned long Address, unsigned long Data, int NumBytes);
-	int WR_IO_only(int sidi, unsigned long Address, unsigned long Data, int NumBytes);
-	int RD_IO(int sidi, unsigned long Address, int *Data, int NumBytes);
-//	int RD_CC(int sidi, unsigned long Address);
+    int WR_BSM(int Addr, byte *Data, int NumBytes);
+    int RD_BSM(int Addr, byte *Data, int NumBytes);
 
-	int WR_IIC(int IICaddr, int comm, int Data, int NumBytes, unsigned long ADDR);
-//	int WR_IIC(int Chan, int comm, int Addr, int NumBytes, byte *Data);
-	int RD_IIC(int Chan, int comm, int Addr, int NumBytes, byte *Data);
+    int WR_IO(int sidi, unsigned long Address, unsigned long Data, int NumBytes);
+    int WR_IO_only(int sidi, unsigned long Address, unsigned long Data, int NumBytes);
+    int RD_IO(int sidi, unsigned long Address, int *Data, int NumBytes);
+    //int RD_CC(int sidi, unsigned long Address);
 
-	int WR_RS(int AA, int CC, int RR, uint Addr, byte *Data);
-	int RD_RS(int AA, int CC, int RR, uint Addr, byte *Data);
+    /// I2C realization
+    int WR_IIC(int IICaddr, int comm, int Data, int NumBytes, unsigned long ADDR);
+    //int WR_IIC(int Chan, int comm, int Addr, int NumBytes, byte *Data);
+    int RD_IIC(int Chan, int comm, int Addr, int NumBytes, byte *Data);
+
+    int WR_RS(int AA, int CC, int RR, uint Addr, byte *Data);
+    int RD_RS(int AA, int CC, int RR, uint Addr, byte *Data);
 
 //	int WR_CUR(int sidi, unsigned long Address,  byte *Data, int NumBytes);
 //	int RD_Status_CUR(int sidi, unsigned long Address,  byte *Data, int NumBytes);
 
 
 //====================================================================
-
 private:
 
+    byte buf[20000];
+    byte data[4000];
+    byte datar[4000];
 
-byte buf[20000];
-byte data[4000];
-byte datar[4000];
-
-pthread_t fRecvThread;
+    pthread_t fRecvThread;
 //pthread_t fAlarmThread;
 
-static void* pRecv(void *parten);
-static void* pSave(void *parten);
-static void* pCurrent(void *parten);
+    static void* pRecv(void *parten);
+    static void* pSave(void *parten);
+    static void* pCurrent(void *parten);
 //static void* pAlarmCUR(void *parten);
 
 };
+
+
 //====================================================================
 //====================================================================
 int IO_device::IO_check(int flag, int sidi, unsigned long Address, byte *Data, int NumBytes, int nsid, int Number, char Type[])
 {
 //	sem_wait(&sem_3000);
 
-word rr=0x0000;
-int sz=0;
-int res=-1;
-int DataSz=0;
-int hd=0,data_sz=0,Stat=0;
+    word rr=0x0000;
+    int sz=0;
+    int res=-1;
+    int DataSz=0;
+    int hd=0,data_sz=0,Stat=0;
 //int nsid = sd_control;
-int mode=0;  // WR or RD
+    int mode=0;  // WR or RD
 //int NumWords=0;
 
-	if (active==-1) {
+    if (active==-1)
+    {
 //	    sem_post(&sem_3000);
-	    return -1;
-	}
+        return -1;
+    }
 
-	if (IsConnected==-1) {
+    if (IsConnected==-1)
+    {
 //	    sem_post(&sem_3000);
-	    return -1;
-	}
+        return -1;
+    }
 
-	if ((nsid&1)==1) mode=1;  // RD    //  проверить
-	else mode=0;              // WR
+    if ((nsid&1)==1) mode=1;  // RD    //  проверить
+    else mode=0;              // WR
 
 
-	if (flag==Fbase) {
-	    DataSz = 12 + NumBytes;
-	}
+    if (flag==Fbase)
+    {
+        DataSz = 12 + NumBytes;
+    }
 
-	if (flag==Frs45) DataSz = 9;
+    if (flag==Frs45) DataSz = 9;
 
-	if (flag==Fiic) DataSz = NumBytes+8;
+    if (flag==Fiic) DataSz = NumBytes+8;
 
 
 //	if (flag==Fonly) DataSz = 12 + NumBytes;
 //	if (flag==Fint32) DataSz = 12 + 2;
 
-	data[0] = (sidi&0xFF00)>>8;
-	data[1] = sidi&0xFF;
-	data[2] = data[0];
-	data[3] = data[1];
-	data[4] = (DataSz&0xFF00)>>8;
-	data[5] = (DataSz&0xFF);
-	data[6] = (rr&0xFF00)>>8;
-	data[7] = (rr&0xFF);
+    data[0] = (sidi&0xFF00)>>8;
+    data[1] = sidi&0xFF;
+    data[2] = data[0];
+    data[3] = data[1];
+    data[4] = (DataSz&0xFF00)>>8;
+    data[5] = (DataSz&0xFF);
+    data[6] = (rr&0xFF00)>>8;
+    data[7] = (rr&0xFF);
 
 
-	if (flag==Fbase) {
-	    memcpy(&data[8],&Address,4);
-	    if (NumBytes>0) memcpy(&data[12],Data,NumBytes);
-	}
-	if (flag==Fonly) {
-	    memcpy(&data[8],&Address,4);
-	    if (NumBytes>0) memcpy(&data[12],Data,NumBytes);
-	}
+    if (flag==Fbase)
+    {
+        memcpy(&data[8],&Address,4);
+        if (NumBytes>0) memcpy(&data[12],Data,NumBytes);
+    }
+    if (flag==Fonly)
+    {
+        memcpy(&data[8],&Address,4);
+        if (NumBytes>0) memcpy(&data[12],Data,NumBytes);
+    }
 
-	if (flag==Frs45) {
-	    data[9] = (byte)NumBytes;
-	}
+    if (flag==Frs45)
+    {
+        data[9] = (byte)NumBytes;
+    }
 
-	if (flag==Fiic) {
-	    memcpy(&data[8],&Address,NumBytes);
+    if (flag==Fiic)
+    {
+        memcpy(&data[8],&Address,NumBytes);
 //	    data[9] = (byte)NumBytes;
-	}
+    }
 
 
 
 
-/*
-	if (flag!=Frs45) {
-	    memcpy(&data[8],&Address,4);
-	    if (NumBytes>0) memcpy(&data[12],Data,NumBytes);
-	}
-	if (flag==Fint32) {
-	    NumWord = NumBytes/2;
-	    if (NumBytes>0) memcpy(&data[12],&NumWords,2);
-	}
-*/
+    /*
+    	if (flag!=Frs45) {
+    	    memcpy(&data[8],&Address,4);
+    	    if (NumBytes>0) memcpy(&data[12],Data,NumBytes);
+    	}
+    	if (flag==Fint32) {
+    	    NumWord = NumBytes/2;
+    	    if (NumBytes>0) memcpy(&data[12],&NumWords,2);
+    	}
+    */
 
 
 #ifdef IO_DEBUG
-	printf("================================\n");
-	if (mode==1) printf("<IO_device::RD>  Send to %s %d (nsid=%i, Address=0x%lX) ...\n",Type,Number,nsid,Address);
-	if (mode==0) printf("<IO_device::WR>  Send to %s %d (nsid=%i, Address=0x%lX) ...\n",Type,Number,nsid,Address);
+    printf("================================\n");
+    if (mode==1) printf("<IO_device::RD>  Send to %s %d (nsid=%i, Address=0x%lX) ...\n",Type,Number,nsid,Address);
+    if (mode==0) printf("<IO_device::WR>  Send to %s %d (nsid=%i, Address=0x%lX) ...\n",Type,Number,nsid,Address);
 
-	for(int j = 0; j < DataSz; j+=2) {
-		printf(" %02X %02X ", data[j],data[j+1]);
-		if ((j+1)%8 == 0) printf("\n");
-	}
-	printf("\n================================\n");
+    for(int j = 0; j < DataSz; j+=2)
+    {
+        printf(" %02X %02X ", data[j],data[j+1]);
+        if ((j+1)%8 == 0) printf("\n");
+    }
+    printf("\n================================\n");
 #endif
 
-	sz = send(nsid, (char *)data, DataSz, 0);  //sending command message
+    sz = send(nsid, (char *)data, DataSz, 0);  //sending command message
 
-	if ( (sz != DataSz) || (sz<0) ) { //  error sending command message
-	    if (mode==1) printf("<IO_device::RD> - not sending data at %s %d (nsid=%i, Address=0x%lX) ...\n",
-			Type,Number,nsid,Address);
-	    if (mode==0) printf("<IO_device::WR> - not sending data at %s %d (nsid=%i, Address=0x%lX) ...\n",
-			Type,Number,nsid,Address);
-	    IsConnected=-1;
+    if ( (sz != DataSz) || (sz<0) )   //  error sending command message
+    {
+        if (mode==1) printf("<IO_device::RD> - not sending data at %s %d (nsid=%i, Address=0x%lX) ...\n",
+                                Type,Number,nsid,Address);
+        if (mode==0) printf("<IO_device::WR> - not sending data at %s %d (nsid=%i, Address=0x%lX) ...\n",
+                                Type,Number,nsid,Address);
+        IsConnected=-1;
 //	    sem_post(&sem_3000);
-	    abort();
-	}
+        abort();
+    }
 
-	if (flag==Fonly) {
+    if (flag==Fonly)
+    {
 //	    sem_post(&sem_3000);
-	    return 0;
-	}
+        return 0;
+    }
 
 
-	for(int j = 0; j < 20000; j++) {
-	    buf[j]=0xFF;
-	}
+    for(int j = 0; j < 20000; j++)
+    {
+        buf[j]=0xFF;
+    }
 
-	res = RDbuf( nsid, buf, 8, 0, Address, Number, Type );
-	if (res<0) {
-	    if (mode==1) printf("!!!   ERROR <IO_device::RD> - Not answer from %s %d (nsid=%i, Address=0x%lX) ...header\n",
-			Type,Number,nsid,Address);
-	    if (mode==0) printf("!!!   ERROR <IO_device::WR> - Not answer from %s %d (nsid=%i, Address=0x%lX) ...header\n",
-			Type,Number,nsid,Address);
-	    IsConnected=-1;
+    res = RDbuf( nsid, buf, 8, 0, Address, Number, Type );
+    if (res<0)
+    {
+        if (mode==1) printf("!!!   ERROR <IO_device::RD> - Not answer from %s %d (nsid=%i, Address=0x%lX) ...header\n",
+                                Type,Number,nsid,Address);
+        if (mode==0) printf("!!!   ERROR <IO_device::WR> - Not answer from %s %d (nsid=%i, Address=0x%lX) ...header\n",
+                                Type,Number,nsid,Address);
+        IsConnected=-1;
 //	    sem_post(&sem_3000);
 //	    abort();
-	    return res;
-	}
+        return res;
+    }
 #ifdef IO_DEBUG
-	printf("\n================================\n");
-	    if (mode==1) printf("<IO_device::RD> - Answer from %s %d (nsid=%i, Address=0x%lX) ...header\n",
-			Type,Number,nsid,Address);
-	    if (mode==0) printf("<IO_device::WR> - Answer from %s %d (nsid=%i, Address=0x%lX) ...header\n",
-			Type,Number,nsid,Address);
+    printf("\n================================\n");
+    if (mode==1) printf("<IO_device::RD> - Answer from %s %d (nsid=%i, Address=0x%lX) ...header\n",
+                            Type,Number,nsid,Address);
+    if (mode==0) printf("<IO_device::WR> - Answer from %s %d (nsid=%i, Address=0x%lX) ...header\n",
+                            Type,Number,nsid,Address);
 
-	    printf("Header:  ");
-	    for(int j = 0; j < res; j+=2) {
-		printf(" %02X %02X ",buf[j],buf[j+1] );
+    printf("Header:  ");
+    for(int j = 0; j < res; j+=2)
+    {
+        printf(" %02X %02X ",buf[j],buf[j+1] );
 //		if ((j+1)%8 == 0) printf("\n");
-	    }
-	    printf("\n");
+    }
+    printf("\n");
 #endif
 
-	if ( (flag == Frs45) && (res==8) ) {
-	
-	    hd = buf[0]*256+buf[1];
-	    data_sz = buf[4]*256+buf[5];
+    if ( (flag == Frs45) && (res==8) )
+    {
+
+        hd = buf[0]*256+buf[1];
+        data_sz = buf[4]*256+buf[5];
 
 
-	    if (hd != sidi){
+        if (hd != sidi)
+        {
 //	    if (FLAG_PRINT)
-		if (mode==1) printf("!!!   ERROR <IO_device::RD> - from %s %d (nsid=%i, Address=0x%lX)   Wrong SIDI=%i\n",
-			Type,Number,nsid,Address,hd);
-		if (mode==0) printf("!!!   ERROR <IO_device::WR> - from %s %d (nsid=%i, Address=0x%lX)   Wrong SIDI=%i\n",
-			Type,Number,nsid,Address,hd);
-		IsConnected=-1;
+            if (mode==1) printf("!!!   ERROR <IO_device::RD> - from %s %d (nsid=%i, Address=0x%lX)   Wrong SIDI=%i\n",
+                                    Type,Number,nsid,Address,hd);
+            if (mode==0) printf("!!!   ERROR <IO_device::WR> - from %s %d (nsid=%i, Address=0x%lX)   Wrong SIDI=%i\n",
+                                    Type,Number,nsid,Address,hd);
+            IsConnected=-1;
 //		sem_post(&sem_3000);
-		return -1;
-	    }
+            return -1;
+        }
 
-	    if (data_sz < 8){
+        if (data_sz < 8)
+        {
 //		    if (FLAG_PRINT)
-		if (mode==1) printf("!!!   ERROR <IO_device::RD> - from %s %d (nsid=%i, Address=0x%lX)   Wrong Data Size=%i\n",
-			Type,Number,nsid,Address,data_sz);
-		if (mode==0) printf("!!!   ERROR <IO_device::WR> - from %s %d (nsid=%i, Address=0x%lX)   Wrong Dtat Size=%i\n",
-			Type,Number,nsid,Address,data_sz);
-		IsConnected=-1;
+            if (mode==1) printf("!!!   ERROR <IO_device::RD> - from %s %d (nsid=%i, Address=0x%lX)   Wrong Data Size=%i\n",
+                                    Type,Number,nsid,Address,data_sz);
+            if (mode==0) printf("!!!   ERROR <IO_device::WR> - from %s %d (nsid=%i, Address=0x%lX)   Wrong Dtat Size=%i\n",
+                                    Type,Number,nsid,Address,data_sz);
+            IsConnected=-1;
 //		sem_post(&sem_3000);
-		return -3;
-	    }
-	    if (data_sz==8) {
+            return -3;
+        }
+        if (data_sz==8)
+        {
 //		sem_post(&sem_3000);
-		return 0;
-	    }
-	}
+            return 0;
+        }
+    }
 
 
 
-	hd = buf[0]*256+buf[1];
-	data_sz = buf[4]*256+buf[5];
+    hd = buf[0]*256+buf[1];
+    data_sz = buf[4]*256+buf[5];
 
 
-	res = RDbuf( nsid, buf+8, data_sz-8, 0, Address, Number, Type );
-	if (res<0) {
-	    if (mode==1) printf("!!!   ERROR <IO_device::RD> - Not answer from %s %d (nsid=%i, Address=0x%lX) ...status\n",
-			Type,Number,nsid,Address);
-	    if (mode==0) printf("!!!   ERROR <IO_device::WR> - Not answer from %s %d (nsid=%i, Address=0x%lX) ...status\n",
-			Type,Number,nsid,Address);
-	    IsConnected=-1;
+    res = RDbuf( nsid, buf+8, data_sz-8, 0, Address, Number, Type );
+    if (res<0)
+    {
+        if (mode==1) printf("!!!   ERROR <IO_device::RD> - Not answer from %s %d (nsid=%i, Address=0x%lX) ...status\n",
+                                Type,Number,nsid,Address);
+        if (mode==0) printf("!!!   ERROR <IO_device::WR> - Not answer from %s %d (nsid=%i, Address=0x%lX) ...status\n",
+                                Type,Number,nsid,Address);
+        IsConnected=-1;
 //	    sem_post(&sem_3000);
 //	    abort();
-	    return res;
-	}
+        return res;
+    }
 
 
-	if (flag == Frs45) {
-		memcpy( Data, buf+8, res );
-	}
-	else {
-	    memcpy(&Stat,&buf[8],2);
-	    if (res>2) {
-		memcpy( Data, &buf[10], res-2 );
-	    }
-	}
+    if (flag == Frs45)
+    {
+        memcpy( Data, buf+8, res );
+    }
+    else
+    {
+        memcpy(&Stat,&buf[8],2);
+        if (res>2)
+        {
+            memcpy( Data, &buf[10], res-2 );
+        }
+    }
 
 
 
 #ifdef IO_DEBUG
 
-	if (flag == Frs45) {
+    if (flag == Frs45)
+    {
 
-	    if (mode==1) printf("<IO_device::RD> - Answer from %s %d (nsid=%i, Address=0x%lX) ...data\n",
-			Type,Number,nsid,Address);
-	    if (mode==0) printf("<IO_device::WR> - Answer from %s %d (nsid=%i, Address=0x%lX) ...data\n",
-			Type,Number,nsid,Address);
-	    printf("Data:    ");
-	    for(int j = 8; j < res+8; j+=2) {
-		printf(" %02X %02X ",Data[j],Data[j+1] );
-		if ((j+1)%8 == 0) printf("\n");
-	    }
-	    printf("\n==================================\n");
-	}
-	
-	else {
+        if (mode==1) printf("<IO_device::RD> - Answer from %s %d (nsid=%i, Address=0x%lX) ...data\n",
+                                Type,Number,nsid,Address);
+        if (mode==0) printf("<IO_device::WR> - Answer from %s %d (nsid=%i, Address=0x%lX) ...data\n",
+                                Type,Number,nsid,Address);
+        printf("Data:    ");
+        for(int j = 8; j < res+8; j+=2)
+        {
+            printf(" %02X %02X ",Data[j],Data[j+1] );
+            if ((j+1)%8 == 0) printf("\n");
+        }
+        printf("\n==================================\n");
+    }
 
-	    if (mode==1) printf("<IO_device::RD> - Answer from %s %d (nsid=%i, Address=0x%lX) ...status\n",
-			Type,Number,nsid,Address);
-	    if (mode==0) printf("<IO_device::WR> - Answer from %s %d (nsid=%i, Address=0x%lX) ...status\n",
-			Type,Number,nsid,Address);
-	    for(int j = 8; j < 10; j+=2) {
-		printf("Status:   %02X  %02X\n",buf[j],buf[j+1] );
-	    }
+    else
+    {
+
+        if (mode==1) printf("<IO_device::RD> - Answer from %s %d (nsid=%i, Address=0x%lX) ...status\n",
+                                Type,Number,nsid,Address);
+        if (mode==0) printf("<IO_device::WR> - Answer from %s %d (nsid=%i, Address=0x%lX) ...status\n",
+                                Type,Number,nsid,Address);
+        for(int j = 8; j < 10; j+=2)
+        {
+            printf("Status:   %02X  %02X\n",buf[j],buf[j+1] );
+        }
 
 
-	    if (mode==1) printf("<IO_device::RD> - Answer from %s %d (nsid=%i, Address=0x%lX) ...data\n",
-			Type,Number,nsid,Address);
-	    if (mode==0) printf("<IO_device::WR> - Answer from %s %d (nsid=%i, Address=0x%lX) ...data\n",
-			Type,Number,nsid,Address);
-	    printf("Data:    ");
-	    for(int j = 10; j < res+10; j+=2) {
-		printf(" %02X %02X ",Data[j],Data[j+1] );
-		if ((j+1)%8 == 0) printf("\n");
-	    }
-	    printf("\n==================================\n");
-	}
+        if (mode==1) printf("<IO_device::RD> - Answer from %s %d (nsid=%i, Address=0x%lX) ...data\n",
+                                Type,Number,nsid,Address);
+        if (mode==0) printf("<IO_device::WR> - Answer from %s %d (nsid=%i, Address=0x%lX) ...data\n",
+                                Type,Number,nsid,Address);
+        printf("Data:    ");
+        for(int j = 10; j < res+10; j+=2)
+        {
+            printf(" %02X %02X ",Data[j],Data[j+1] );
+            if ((j+1)%8 == 0) printf("\n");
+        }
+        printf("\n==================================\n");
+    }
 #endif
 
 
-	if (flag==Frs45) {
+    if (flag==Frs45)
+    {
 //	    sem_post(&sem_3000);
-	    return res;  // было в IACT
+        return res;  // было в IACT
 //	    return 0;  // должно быть,  проверить
-	}
+    }
 
 //  ERRORS::
 
-	if (hd != sidi){
+    if (hd != sidi)
+    {
 //	    if (FLAG_PRINT)
-	    if (mode==1) printf("!!!   ERROR <IO_device::RD> - from %s %d (nsid=%i, Address=0x%lX)   Wrong SIDI=%i\n",
-			Type,Number,nsid,Address,hd);
-	    if (mode==0) printf("!!!   ERROR <IO_device::WR> - from %s %d (nsid=%i, Address=0x%lX)   Wrong SIDI=%i\n",
-			Type,Number,nsid,Address,hd);
-	    IsConnected=-1;
+        if (mode==1) printf("!!!   ERROR <IO_device::RD> - from %s %d (nsid=%i, Address=0x%lX)   Wrong SIDI=%i\n",
+                                Type,Number,nsid,Address,hd);
+        if (mode==0) printf("!!!   ERROR <IO_device::WR> - from %s %d (nsid=%i, Address=0x%lX)   Wrong SIDI=%i\n",
+                                Type,Number,nsid,Address,hd);
+        IsConnected=-1;
 //	    sem_post(&sem_3000);
-	    return -1;
-	}
+        return -1;
+    }
 
-	if (Stat != 0){
+    if (Stat != 0)
+    {
 //	    if (FLAG_PRINT)
-			printf("!!!   ERROR <io-IACT::Write> - from %s#%02d  Recive Status=0x%X\n",Type,Number,Stat);
-	    if (mode==1) printf("!!!   ERROR <IO_device::RD> - from %s %d (nsid=%i, Address=0x%lX)   Wrong Status=%i\n",
-			Type,Number,nsid,Address,Stat);
-	    if (mode==0) printf("!!!   ERROR <IO_device::WR> - from %s %d (nsid=%i, Address=0x%lX)   Wrong Status=%i\n",
-			Type,Number,nsid,Address,Stat);
+        printf("!!!   ERROR <io-IACT::Write> - from %s#%02d  Recive Status=0x%X\n",Type,Number,Stat);
+        if (mode==1) printf("!!!   ERROR <IO_device::RD> - from %s %d (nsid=%i, Address=0x%lX)   Wrong Status=%i\n",
+                                Type,Number,nsid,Address,Stat);
+        if (mode==0) printf("!!!   ERROR <IO_device::WR> - from %s %d (nsid=%i, Address=0x%lX)   Wrong Status=%i\n",
+                                Type,Number,nsid,Address,Stat);
 //	    IsConnected=-1;
 //	    sem_post(&sem_3000);
-	    return -2;
-	}
+        return -2;
+    }
 
-	if (data_sz < 10){
+    if (data_sz < 10)
+    {
 //		    if (FLAG_PRINT)
-	    if (mode==1) printf("!!!   ERROR <IO_device::RD> - from %s %d (nsid=%i, Address=0x%lX)   Wrong Data Size=%i\n",
-			Type,Number,nsid,Address,data_sz);
-	    if (mode==0) printf("!!!   ERROR <IO_device::WR> - from %s %d (nsid=%i, Address=0x%lX)   Wrong Dtat Size=%i\n",
-			Type,Number,nsid,Address,data_sz);
-	    IsConnected=-1;
+        if (mode==1) printf("!!!   ERROR <IO_device::RD> - from %s %d (nsid=%i, Address=0x%lX)   Wrong Data Size=%i\n",
+                                Type,Number,nsid,Address,data_sz);
+        if (mode==0) printf("!!!   ERROR <IO_device::WR> - from %s %d (nsid=%i, Address=0x%lX)   Wrong Dtat Size=%i\n",
+                                Type,Number,nsid,Address,data_sz);
+        IsConnected=-1;
 //	    sem_post(&sem_3000);
-	    return -3;
-	}
+        return -3;
+    }
 
 //	sem_post(&sem_3000);
-return 0;
+    return 0;
 }
 //====================================================================
 
@@ -411,7 +456,7 @@ bool IO_device::CreateSockets()
 	if(sd_control < 0)
 	{
 		sd_control = socket(AF_INET, SOCK_STREAM, 0);
-		if(sd_control < -1) 
+		if(sd_control < -1)
 		{
 			printf("Unable to create CONTROL socket.\n");
 			return false;
@@ -424,7 +469,7 @@ bool IO_device::CreateSockets()
 	if(sd_data < 0)
 	{
 		sd_data = socket(AF_INET, SOCK_STREAM, 0);
-		if(sd_data < -1) 
+		if(sd_data < -1)
 		{
 			printf("Unable to create DATA socket.\n");
 			return false;
@@ -435,7 +480,7 @@ bool IO_device::CreateSockets()
 	if(sd_current < 0)
 	{
 		sd_current = socket(AF_INET, SOCK_STREAM, 0);
-		if(sd_current < -1) 
+		if(sd_current < -1)
 		{
 			printf("Unable to create CURRENT socket.\n");
 			return false;
@@ -450,86 +495,86 @@ bool IO_device::CreateSockets()
 //====================================================================
 bool IO_device::Connect(int *nsid, char *fAddress, int fPort)
 {
-int fConnectionRepeatCurr = 0;
-int fConnectionRepeat=50;
-int sd=*nsid;
+    int fConnectionRepeatCurr = 0;
+    int fConnectionRepeat=50;
+    int sd=*nsid;
 
-	if (active==-1) return -1;
+    if (active==-1) return -1;
 
 
-printf("sd=%i\n",sd);
-	if(sd > 0) 
-	{
-		printf("Error in programm::  This socket is present and not closed:   nsid=%d.\n",sd );
-	    abort();
-	    return false;
-	}
- 
-	if(sd < 0) 
-	{
-		sd = socket(AF_INET, SOCK_STREAM, 0);
-//		if(sd < -1) 
-		if(sd < 0) 
-		{
-			printf("Unable to create CONTROL socket.\n");
-			abort();
-			return false;
-		}
-		// setting nonblocking option for socket
-		fcntl(sd, F_SETFL, O_NONBLOCK);
-	}
+    printf("sd=%i\n",sd);
+    if(sd > 0)
+    {
+        printf("Error in programm::  This socket is present and not closed:   nsid=%d.\n",sd );
+        abort();
+        return false;
+    }
 
-	IsConnected = -1;
+    if(sd < 0)
+    {
+        sd = socket(AF_INET, SOCK_STREAM, 0);
+//		if(sd < -1)
+        if(sd < 0)
+        {
+            printf("Unable to create CONTROL socket.\n");
+            abort();
+            return false;
+        }
+        // setting nonblocking option for socket
+        fcntl(sd, F_SETFL, O_NONBLOCK);
+    }
 
-	in_addr raw_addr;
-	sockaddr_in addr;
-	
-	addr.sin_family = AF_INET;
-	addr.sin_port = htons(fPort);
+    IsConnected = -1;
 
-	if(inet_aton(fAddress, &raw_addr) == -1)
-	{
-		printf("Unable to convert server address. %s\n",fAddress);
-		return false;
-	}
-	addr.sin_addr = raw_addr;
+    in_addr raw_addr;
+    sockaddr_in addr;
 
-qq(1111);
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(fPort);
 
-	while(connect(sd, (struct sockaddr *)&addr, sizeof(addr)) < 0)
-	{
-		printf("Try connect to: %s %d  (IP::%s:%i)   nsid=%i   Try %d/%d.\n", 
-			TypeName,Number,fAddress,fPort,sd, fConnectionRepeatCurr + 1, fConnectionRepeat );
+    if(inet_aton(fAddress, &raw_addr) == -1)
+    {
+        printf("Unable to convert server address. %s\n",fAddress);
+        return false;
+    }
+    addr.sin_addr = raw_addr;
 
-		if(fConnectionRepeat >= 0 && fConnectionRepeatCurr + 1 >= fConnectionRepeat)
-		{
-			printf("        Unable to connect to %s %d  (%s:: %i)\n",
-				TypeName,Number,fAddress,fPort);
-			printf("           %s %d is not active\n",TypeName,Number);
+    qq(1111);
+
+    while(connect(sd, (struct sockaddr *)&addr, sizeof(addr)) < 0)
+    {
+        printf("Try connect to: %s %d  (IP::%s:%i)   nsid=%i   Try %d/%d.\n",
+               TypeName,Number,fAddress,fPort,sd, fConnectionRepeatCurr + 1, fConnectionRepeat );
+
+        if(fConnectionRepeat >= 0 && fConnectionRepeatCurr + 1 >= fConnectionRepeat)
+        {
+            printf("        Unable to connect to %s %d  (%s:: %i)\n",
+                   TypeName,Number,fAddress,fPort);
+            printf("           %s %d is not active\n",TypeName,Number);
 
 //ffstat = fopen(statfile,"at");
 //fprintf(ffstat,"\n        Unable to connect to IACT_CC %d  (%s:: %i)\n",
 //				Number,fAddress,fPort);
 //fprintf(ffstat,"           IACT_CC %d is not active\n\n",Number);
 //fclose(ffstat);
-			return false;
-		}
-		fConnectionRepeatCurr++;
-		sleep(1);
+            return false;
+        }
+        fConnectionRepeatCurr++;
+        sleep(1);
 
-qq(2222);
-	};
+        qq(2222);
+    };
 
-	IsConnected = 1;
-	*nsid = sd;
+    IsConnected = 1;
+    *nsid = sd;
 
 //press_any_key();
-return true;
+    return true;
 }
 //====================================================================
-bool IO_device::UnConnect ( void) 
+bool IO_device::UnConnect ( void)
 {
-	if (active==0) return -1;
+    if (active==0) return -1;
 
 //    pthread_cancel(fRecvThread);
 //    pthread_cancel(fSaveThread);
@@ -539,22 +584,22 @@ bool IO_device::UnConnect ( void)
     close(sd_data);
     shutdown(sd_current, SHUT_RD|SHUT_WR);
     close(sd_current);
-	    sd_control=-1;
-	    sd_data=-1;
-	    sd_current=-1;
+    sd_control=-1;
+    sd_data=-1;
+    sd_current=-1;
 
 //ffstat = fopen(statfile,"at");
 //fprintf(ffstat,"\n        UnConnect IACT_CC  sd_control => %i\n",sd_control);
 //fprintf(ffstat,"        UnConnect IACT_CC  sd_data => %i\n",sd_data);
 //fprintf(ffstat,"        UnConnect IACT_CC  sd_current => %i\n",sd_current);
-//fclose(ffstat); 
+//fclose(ffstat);
 
-return true;
+    return true;
 }
 //====================================================================
-bool IO_device::Reset_Sockets ( void) 
+bool IO_device::Reset_Sockets ( void)
 {
-	if (active==0) return -1;
+    if (active==0) return -1;
 
     pthread_cancel(fRecvThread);
     pthread_kill(fRecvThread,0);
@@ -565,16 +610,16 @@ bool IO_device::Reset_Sockets ( void)
     close(sd_data);
     shutdown(sd_current, SHUT_RD|SHUT_WR);
     close(sd_current);
-	    sd_control=-1;
-	    sd_data=-1;
-	    sd_current=-1;
+    sd_control=-1;
+    sd_data=-1;
+    sd_current=-1;
 //ffstat = fopen(statfile,"at");
 //fprintf(ffstat,"\n        UnConnect IACT_CC  sd_control => %i\n",sd_control);
 //fprintf(ffstat,"        UnConnect IACT_CC  sd_data => %i\n",sd_data);
 //fprintf(ffstat,"        UnConnect IACT_CC  sd_current => %i\n",sd_current);
-//fclose(ffstat); 
+//fclose(ffstat);
 
-return true;
+    return true;
 }
 //====================================================================
 //====================================================================
@@ -582,56 +627,61 @@ return true;
 //====================================================================
 int IO_device::RDbuf(int nsid, byte *buf, int NumBytes, int flag, unsigned long Addr, int Number, char Type[])
 {
-int SumBytes=0;
-int res;
-int kkk=0;
-int TimeOut=1000;  // 10 mksec
+    int SumBytes=0;
+    int res;
+    int kkk=0;
+    int TimeOut=1000;  // 10 mksec
 
-	if (active==0) return -1;
+    if (active==0) return -1;
 
-	for(int j=0;j<NumBytes;j++) {
-	    buf[j]=0;
-	}
+    for(int j=0; j<NumBytes; j++)
+    {
+        buf[j]=0;
+    }
 
-	while(SumBytes!=NumBytes) {
+    while(SumBytes!=NumBytes)
+    {
 
-	    res = recv( nsid, buf+SumBytes, NumBytes-SumBytes, flag );
+        res = recv( nsid, buf+SumBytes, NumBytes-SumBytes, flag );
 
-	    if (res>0) {
+        if (res>0)
+        {
 
-		SumBytes += res;
+            SumBytes += res;
 
 #ifdef IO_DEBUG
-		printf("RDbuf::\n");
-		for(int j = 0; j < NumBytes; j++) {
-			printf(" 0x%X",buf[j]);
-			if (j%2) printf("  ");
-		}
-		printf("\n");
+            printf("RDbuf::\n");
+            for(int j = 0; j < NumBytes; j++)
+            {
+                printf(" 0x%X",buf[j]);
+                if (j%2) printf("  ");
+            }
+            printf("\n");
 #endif
-	    }
+        }
 
-	    if (SumBytes==NumBytes) return SumBytes;
+        if (SumBytes==NumBytes) return SumBytes;
 
-	    kkk++;
-	    if ( !(kkk%1000) ) {
+        kkk++;
+        if ( !(kkk%1000) )
+        {
 //		if (FLAG_PRINT)
-		    printf("ERROR <io-cc.c::RDbuf> Not recivind data at %s %i (sd=%i)  TimeOut=%ld s res=%i  Addr=0x%lx\n",
-			Type,Number,nsid,(unsigned long)kkk*TimeOut/1000,res,Addr);
-	    }
-	    if ( kkk>30000 ) return -20;  //  30 sec
+            printf("ERROR <io-cc.c::RDbuf> Not recivind data at %s %i (sd=%i)  TimeOut=%ld s res=%i  Addr=0x%lx\n",
+                   Type,Number,nsid,(unsigned long)kkk*TimeOut/1000,res,Addr);
+        }
+        if ( kkk>30000 ) return -20;  //  30 sec
 
-	    usleep(TimeOut);
+        usleep(TimeOut);
 
-	}  //  while
+    }  //  while
 
-return SumBytes;
+    return SumBytes;
 }
 //====================================================================
 //====================================================================
 //====================================================================
 /*
-int IO_device::WR_BSM(int Addr, byte *Data, int NumBytes) 
+int IO_device::WR_BSM(int Addr, byte *Data, int NumBytes)
 {
 int res=0;
 int sidi=3064;
@@ -677,7 +727,7 @@ return res;
 */
 //====================================================================
 /*
-int IO_device::RD_BSM(int Addr, byte *Data, int NumBytes) 
+int IO_device::RD_BSM(int Addr, byte *Data, int NumBytes)
 {
 int res=0;
 int sidi=3065;
@@ -702,7 +752,7 @@ int kk=0;
 	buf[0]=(byte)(Addr)+0x80;
 	buf[1]=(byte)NumBytes;
 
-	for(int ii=0;ii<NumBytes;ii++) 
+	for(int ii=0;ii<NumBytes;ii++)
 	{
  	    Data[ii]=0xFF;
 //	printf("buf=0x%x  ",buf[ii]);
@@ -723,7 +773,7 @@ printf("kk=%i\n",kk);
 	    goto CYC;
 	}
 
-	for(int ii=0;ii<res;ii++) 
+	for(int ii=0;ii<res;ii++)
 	{
  	    Data[ii]=buf[ii];
 //	printf("buf=0x%x  ",buf[ii]);
@@ -884,139 +934,150 @@ return res;
 //====================================================================
 int IO_device::WR_IIC(int IICaddr, int comm, int Data, int NumBytes, unsigned long ADDR)
 {
-int res=0;
-int sidi=3010;
-char buf[30];
-int DataSz=NumBytes;
-unsigned long Address=0L;
-int kk=0;
-unsigned long add1=0,add2=0l,add3=0;
-unsigned long addAddress=0L;
+    int res=0;
+    int sidi=3010;
+    char buf[30];
+    int DataSz=NumBytes;
+    unsigned long Address=0L;
+    int kk=0;
+    unsigned long add1=0,add2=0l,add3=0;
+    unsigned long addAddress=0L;
 
-	if (active==0) return -1;
+    if (active==0) return -1;
 
-	for(int i=0;i<30;i++) {
-	    buf[i]=0;
-	}
+    for(int i=0; i<30; i++)
+    {
+        buf[i]=0;
+    }
 
-if (NumBytes==3) {
+    if (NumBytes==3)
+    {
 
-	Address = (IICaddr<<16)+(comm<<10)+Data;
-	add1=Address>>16;
+        Address = (IICaddr<<16)+(comm<<10)+Data;
+        add1=Address>>16;
 //	add2=(Address-(add1<<16))>>8;
-	add2=(Address&0xFFFF)>>8;
-	add3=Address&0xFF;
+        add2=(Address&0xFFFF)>>8;
+        add3=Address&0xFF;
 //((IICaddr*256) + comm);
 //	Address = ( ((IICaddr*256) + comm) << 7) + Data;
-	Address = ADDR;
-printf("Addres = 0x%lX   Add = 0x%lX  0x%lX    0x%lX \n",Address, add1,add2,add3);
+        Address = ADDR;
+        printf("Addres = 0x%lX   Add = 0x%lX  0x%lX    0x%lX \n",Address, add1,add2,add3);
 //	Address = ADDR;
-	addAddress = (add3<<16) + (add2<<8) + add1;
-	Address = addAddress;
-printf("addAddres = 0x%lX   ADDR =0x%lX\n",addAddress,ADDR);
+        addAddress = (add3<<16) + (add2<<8) + add1;
+        Address = addAddress;
+        printf("addAddres = 0x%lX   ADDR =0x%lX\n",addAddress,ADDR);
 //press_any_key();
-}
+    }
 
-if (NumBytes==4) {
-Address = 0L;
+    if (NumBytes==4)
+    {
+        Address = 0L;
 //Address = ( ((Data) << 16) + (comm<<8) + IICaddr) &0xFFFFFFFF;
-Address = ( ( ( ((Data&0xFF)<<8) + (Data>>8) ) << 16) + (comm<<8) + IICaddr) &0xFFFFFFFF;
+        Address = ( ( ( ((Data&0xFF)<<8) + (Data>>8) ) << 16) + (comm<<8) + IICaddr) &0xFFFFFFFF;
 //Address = ( ( ( ((Data&0xFF)<<8) + (Data>>8) ) << 8) + (comm<<24) + IICaddr) &0xFFFFFFFF;
 //Address = ( (Data  << 8) + (comm<<24) + IICaddr) &0xFFFFFFFF;
-printf("Addres = 0x%lX  datasz=%i\n",Address,DataSz);
+        printf("Addres = 0x%lX  datasz=%i\n",Address,DataSz);
 //press_any_key();
-}
+    }
 
 
 CYC:
-	if (kk>1) {
-	    printf("ERROR!!!  May be not connect \n");
-	    return res;
-	}
+    if (kk>1)
+    {
+        printf("ERROR!!!  May be not connect \n");
+        return res;
+    }
 //	res=WR(sidi, Address, (byte*)(buf+4), DataSz, Number, (char*)"RS");
-	res=IO_check(Fiic,sidi, Address, (byte*)buf, DataSz, sd_control, Number, (char*)"SIPM_IIC");
+    res=IO_check(Fiic,sidi, Address, (byte*)buf, DataSz, sd_control, Number, (char*)"SIPM_IIC");
 
-	if (res<0) {
-	    kk++;
-	    goto CYC;
-	}
+    if (res<0)
+    {
+        kk++;
+        goto CYC;
+    }
 
-return res;
+    return res;
 }
 
 //====================================================================
 int IO_device::RD_IIC(int Chan, int comm, int Addr, int NumBytes, byte *Data)
 {
-int res=0;
+    int res=0;
 //unsigned long Address=0L;
-int ww=0;
-byte datars[200];
-int kk=0;
+    int ww=0;
+    byte datars[200];
+    int kk=0;
 
-	if (active==0) return -1;
+    if (active==0) return -1;
 
 CYC:
-	if (kk>1) {
-	    printf("ERROR!!!  May be not connect \n");
-	    return res;
-	}
+    if (kk>1)
+    {
+        printf("ERROR!!!  May be not connect \n");
+        return res;
+    }
 //	res=WR_I2C(Chan, comm, Addr, NumBytes, Data);
 
-	if (res<0) {
-	    kk++;
-	    goto CYC;
-	}
+    if (res<0)
+    {
+        kk++;
+        goto CYC;
+    }
 
-usleep(20000);
+    usleep(20000);
 
-	ww=0;
+    ww=0;
 //CYC:
-	res=0;
+    res=0;
 //	res=RD_DIM(3005,Address,datars+ww,100,Number,(char*)"RS");
 //	res=IO_check(Frs45,3005, Address, datars+ww, 100, sd_control, Number, (char*)"RS");
 
 
 
 
-	if ( (res>0) && (datars[res-1] != 0x0D) ) {
-	    ww+=res;
+    if ( (res>0) && (datars[res-1] != 0x0D) )
+    {
+        ww+=res;
 //	    goto CYC;
 
 //ИСПРАВИТЬ!!!
-	}
+    }
 
 //	for (int ii=0;ii<res;ii++) {
 //	    printf("RS(3005)::  ii=%i   datars=0x%x\n",ii,datars[ii]);
 //	}
 
-	for (int ii=0;ii<res-5;ii+=2) {
+    for (int ii=0; ii<res-5; ii+=2)
+    {
 //	    HexToByte(&Data[ii/2],&datars[ii+2]);
 //	    printf("RS(3005)::  ii=%i   datars=0x%x\n",ii,Data[ii/2]);
-	}
+    }
 
-return res;
+    return res;
 }
 //====================================================================
 //====================================================================
 int IO_device::WR_IO_only(int sidi, unsigned long Address,  unsigned long Data, int NumBytes)
 {
 //byte buf[4];
-int res=0;
+    int res=0;
 //int kk=0;
 
-	if (active==0) return -1;
+    if (active==0) return -1;
 
-	if ( NumBytes==2 ) {
-	    buf[0]=(unsigned char)(Data)&0xff;
-	    buf[1]=(unsigned char)((Data>>8)&0xff);
-	}
+    if ( NumBytes==2 )
+    {
+        buf[0]=(unsigned char)(Data)&0xff;
+        buf[1]=(unsigned char)((Data>>8)&0xff);
+    }
 
-	if ( NumBytes==4 ) {
-	    buf[0]=(unsigned char)(Data)&0xff;
-	    buf[1]=(unsigned char)((Data>>8)&0xff);
-	    buf[2]=(unsigned char)((Data>>16)&0xffff);
-	    buf[3]=(unsigned char)((Data>>24)&0xffffff);
-	}
+    if ( NumBytes==4 )
+    {
+        buf[0]=(unsigned char)(Data)&0xff;
+        buf[1]=(unsigned char)((Data>>8)&0xff);
+        buf[2]=(unsigned char)((Data>>16)&0xffff);
+        buf[3]=(unsigned char)((Data>>24)&0xffffff);
+    }
 
 //CYC:
 //	if (kk>1) {
@@ -1024,91 +1085,102 @@ int res=0;
 //	    return res;
 //	}
 //	res=WR_only(sidi, Address, buf, NumBytes, Number, (char*)"IACT_CC");
-	res=IO_check(Fbase,sidi, Address, buf, NumBytes, sd_control, Number, (char*)"BSM");
+    res=IO_check(Fbase,sidi, Address, buf, NumBytes, sd_control, Number, (char*)"BSM");
 //	if (res<0) {
 //	    kk++;
 //	    goto CYC;
 //	}
 
-return res;
+    return res;
 }
 //====================================================================
 int IO_device::WR_IO(int sidi, unsigned long Address,  unsigned long Data, int NumBytes)
 {
 //byte buf[4];
-int res=0;
-int kk=0;
+    int res=0;
+    int kk=0;
 
-	if (active==0) return -1;
+    if (active==0) return -1;
 
-	if ( NumBytes==2 ) {
-	    buf[0]=(unsigned char)(Data)&0xff;
-	    buf[1]=(unsigned char)((Data>>8)&0xff);
-	}
+    if ( NumBytes==2 )
+    {
+        buf[0]=(unsigned char)(Data)&0xff;
+        buf[1]=(unsigned char)((Data>>8)&0xff);
+    }
 
-	if ( NumBytes==4 ) {
-	    buf[0]=(unsigned char)(Data)&0xff;
-	    buf[1]=(unsigned char)((Data>>8)&0xff);
-	    buf[2]=(unsigned char)((Data>>16)&0xffff);
-	    buf[3]=(unsigned char)((Data>>24)&0xffffff);
-	}
+    if ( NumBytes==4 )
+    {
+        buf[0]=(unsigned char)(Data)&0xff;
+        buf[1]=(unsigned char)((Data>>8)&0xff);
+        buf[2]=(unsigned char)((Data>>16)&0xffff);
+        buf[3]=(unsigned char)((Data>>24)&0xffffff);
+    }
 
 CYC:
-	if (kk>1) {
-	    printf("ERROR!!!  May be not connect \n");
-	    return res;
-	}
+    if (kk>1)
+    {
+        printf("ERROR!!!  May be not connect \n");
+        return res;
+    }
 //	res=WR(sidi, Address, buf, NumBytes, Number, (char*)"IACT_CC");
-	res=IO_check(Fbase,sidi, Address, buf, NumBytes, sd_control, Number, (char*)TypeName);
-	if (res<0) {
-	    kk++;
-	    goto CYC;
-	}
+    res=IO_check(Fbase,sidi, Address, buf, NumBytes, sd_control, Number, (char*)TypeName);
+    if (res<0)
+    {
+        kk++;
+        goto CYC;
+    }
 
-return res;
+    return res;
 }
 //====================================================================
 //int IO_device::RD_IO(int sidi, unsigned long Address)
 int IO_device::RD_IO(int sidi, unsigned long Address, int *Data, int NumBytes)
 {
 //byte buf[2];
-int res=0;
-int kk=0;
-int dat=0L;
+    int res=0;
+    int kk=0;
+    int dat=0L;
 //int data=0;
 
-	if (active==0) return -1;
+    if (active==0) return -1;
 
 //	buf[0] = (Data&0xFF);
 //	buf[1] = (Data&0xFF00)>>8;
-	buf[0] = 0;
-	buf[1] = 0;
+    buf[0] = 0;
+    buf[1] = 0;
 
 CYC:
-	if (kk>1) {
-	    printf("ERROR!!!  May be not connect \n");
-	    return -1;
-	}
+    if (kk>1)
+    {
+        printf("ERROR!!!  May be not connect \n");
+        return -1;
+    }
 //	res=RD(sidi, Address, buf, NumBytes, Number, (char*)"IACT_CC");
 //	res=RD(sidi, Address, buf, 0, Number, (char*)"IACT_CC");
-	res=IO_check(Fbase,sidi, Address, buf, 0, sd_control, Number, (char*)TypeName);
-	if (res<0) {
-	    kk++;
+    res=IO_check(Fbase,sidi, Address, buf, 0, sd_control, Number, (char*)TypeName);
+    if (res<0)
+    {
+        kk++;
 //printf("kk=%i\n",kk);
-	    dat =-1;
-	    *Data = dat;
-	    goto CYC;
-	}
+        dat =-1;
+        *Data = dat;
+        goto CYC;
+    }
 
-	if (res<0) {  dat=-1; *Data=dat; }
-	else {
-	    dat=((buf[1]&0xff)<<8)+(buf[0]&0xff);
-	    *Data = dat;
-	}
+    if (res<0)
+    {
+        dat=-1;
+        *Data=dat;
+    }
+    else
+    {
+        dat=((buf[1]&0xff)<<8)+(buf[0]&0xff);
+        *Data = dat;
+    }
 
 
 //printf("res=%i  buf[0]=%x  buf[1]=%x   dat=%x\n",res,buf[0],buf[1],dat);
-return res;
+    return res;
 }
 //====================================================================
 /*
@@ -1192,7 +1264,7 @@ unsigned int NumPack=0;
 #endif
 
 
-	if( res>0 ) { 
+	if( res>0 ) {
 
 	    hd = datar[0]*256+datar[1];
 	    data_sz = datar[4]*256+datar[5];
@@ -1252,42 +1324,43 @@ return res;
 //====================================================================
 void* IO_device::pRecv(void* parent)
 {
-IO_device *client = (IO_device *) parent;
-unsigned char buff[2000];
-long sz = 0L;
-FILE *fff;
+    IO_device *client = (IO_device *) parent;
+    unsigned char buff[2000];
+    long sz = 0L;
+    FILE *fff;
 
 
-printf("===============  THREAD RECV data started  =============\n");
-printf("socket=%i\n",client->sd_data);
+    printf("===============  THREAD RECV data started  =============\n");
+    printf("socket=%i\n",client->sd_data);
 
-	while(1)
-	{
-	    sz = recv(client->sd_data, buff, 156, 0);
+    while(1)
+    {
+        sz = recv(client->sd_data, buff, 156, 0);
 
-	    if(sz == 156)
-	    {
-	printf("\nresv (3007)::  BSM#%i  res=%ld\n",client->Number, sz);
+        if(sz == 156)
+        {
+            printf("\nresv (3007)::  BSM#%i  res=%ld\n",client->Number, sz);
 //		for (int ib=0;ib<156;ib+=2) {
-		for (int ib=24;ib<152;ib+=2) {
-			printf("%7d",(buff[ib]+buff[ib+1]*256));
-			if( (ib+10)%16==0 ) printf("\n");
-		}	
-	printf("resv (3007)::\n");
+            for (int ib=24; ib<152; ib+=2)
+            {
+                printf("%7d",(buff[ib]+buff[ib+1]*256));
+                if( (ib+10)%16==0 ) printf("\n");
+            }
+            printf("resv (3007)::\n");
 
-		fff = fopen("data.dat","ab");
-		fwrite(buff,sz,1,fff);
-		fclose(fff);
-	    }
-	    else 
-	    {
+            fff = fopen("data.dat","ab");
+            fwrite(buff,sz,1,fff);
+            fclose(fff);
+        }
+        else
+        {
 //	printf("recv  sleep 1 mls\n");
-	    	usleep(1000);
-	    }
+            usleep(1000);
+        }
 
-	}  // while
+    }  // while
 
-return NULL;
+    return NULL;
 }
 //====================================================================
 /*
@@ -1422,12 +1495,12 @@ if(NumCUR>65000) NumCUR=1;
 
 		    }
 		}
-		else 
+		else
 		{
 		    printf("!!!   ERROR <recv 3005> - Not answer from  socket=%i\n",client->sd_current);
 		}
 	    }
-	    else 
+	    else
 	    {
 	    	usleep(10000);
 	    }
@@ -1475,7 +1548,7 @@ printf("OVERLOAD::\n");
 	    GetOverloadCUR(num);
 
 
-	    
+
 
 //	    ii = IACT_CC.linkCC[pls];
 //	    if (BSM[ii].active==0) continue;
@@ -1517,113 +1590,127 @@ return NULL;
 //====================================================================
 int IO_device::OpenNewFile(char *path, int por, int flag )
 {
-char st[10];
-unsigned long mmm=0L;
+    char st[10];
+    unsigned long mmm=0L;
 
-	if (active==0) return -1;
+    if (active==0) return -1;
 
-	strcpy(filename,path);
+    strcpy(filename,path);
 //printf("open::pathname=%s  filename=%s\n",path,filename);
 
-	if (flag==1) {
-	    sprintf(st,"/BSM%02d/",Number);
-	    strcat(filename,st);
-	    mkdir(filename,0x41FF);
+    if (flag==1)
+    {
+        sprintf(st,"/BSM%02d/",Number);
+        strcat(filename,st);
+        mkdir(filename,0x41FF);
 //printf("mkdir::pathname=%s  filename=%s\n",path,filename);
-	}
+    }
 
-	if ( (flag==2) || (flag==5) ) {
-	    strcat(filename,"/PED/");
-	    mkdir(filename,0x41FF);
+    if ( (flag==2) || (flag==5) )
+    {
+        strcat(filename,"/PED/");
+        mkdir(filename,0x41FF);
 //printf("mkdir::pathname=%s  filename=%s\n",path,filename);
-	}
+    }
 
-	if (flag==3) {
-	    strcat(filename,"/CORATE/");
-	    mkdir(filename,0x41FF);
+    if (flag==3)
+    {
+        strcat(filename,"/CORATE/");
+        mkdir(filename,0x41FF);
 //printf("mkdir::pathname=%s  filename=%s\n",path,filename);
-	}
+    }
 
-	if (flag==4) {
-	    strcat(filename,"/CURRENT/");
-	    mkdir(filename,0x41FF);
+    if (flag==4)
+    {
+        strcat(filename,"/CURRENT/");
+        mkdir(filename,0x41FF);
 //printf("mkdir::pathname=%s  filename=%s\n",path,filename);
-	}
+    }
 
-	if (flag==6) {
-	    strcat(filename,"/CUR&COR/");
-	    mkdir(filename,0x41FF);
+    if (flag==6)
+    {
+        strcat(filename,"/CUR&COR/");
+        mkdir(filename,0x41FF);
 //printf("mkdir::pathname=%s  filename=%s\n",path,filename);
-	}
+    }
 
-	if (flag==200) {
-	    strcat(filename,"/SIPM/");
-	    mkdir(filename,0x41FF);
+    if (flag==200)
+    {
+        strcat(filename,"/SIPM/");
+        mkdir(filename,0x41FF);
 //printf("mkdir::pathname=%s  filename=%s\n",path,filename);
-	}
+    }
 
-	mmm = nnn*1000L;
-	mmm += (unsigned long)Number;
+    mmm = nnn*1000L;
+    mmm += (unsigned long)Number;
 //	printf("nnn=%ld   mmm=%ld   por=%i  pathfile={%s}\n",nnn,mmm,por,path);
 
-	if ( mmm<=9999999L ) sprintf(st,"0%7ld",mmm);
-	else                 sprintf(st,"%8ld",mmm);
-	strcat(filename,st);
+    if ( mmm<=9999999L ) sprintf(st,"0%7ld",mmm);
+    else                 sprintf(st,"%8ld",mmm);
+    strcat(filename,st);
 
-	if (flag==1) {
-	    sprintf(st,".%03d",por);
-	    strcat(filename,st);
-	}
+    if (flag==1)
+    {
+        sprintf(st,".%03d",por);
+        strcat(filename,st);
+    }
 
-	if (flag==200) {
-	    sprintf(st,".%03d",por);
-	    strcat(filename,st);
-	}
+    if (flag==200)
+    {
+        sprintf(st,".%03d",por);
+        strcat(filename,st);
+    }
 
-	if (flag==2) {
-	    strcat(filename,".ped");
-	}
+    if (flag==2)
+    {
+        strcat(filename,".ped");
+    }
 
-	if (flag==5) {
-	    strcat(filename,".ped_txt");
-	}
+    if (flag==5)
+    {
+        strcat(filename,".ped_txt");
+    }
 
-	if (flag==3) {
-	    strcat(filename,".corate");
-	}
+    if (flag==3)
+    {
+        strcat(filename,".corate");
+    }
 
-	if (flag==4) {
-	    strcat(filename,".current");
-	}
+    if (flag==4)
+    {
+        strcat(filename,".current");
+    }
 
-	if (flag==6) {
-	    strcat(filename,".cur&cor");
-	}
+    if (flag==6)
+    {
+        strcat(filename,".cur&cor");
+    }
 
-	if (flag==1) fdat = fopen ( filename,"wb");
-	if (flag==200) fdat = fopen ( filename,"wb");
-	if (flag==2) fdat = fopen ( filename,"wb");
-	if (flag==3) frate = fopen ( filename,"at");
-	if (flag==4) fcur = fopen ( filename,"at");
+    if (flag==1) fdat = fopen ( filename,"wb");
+    if (flag==200) fdat = fopen ( filename,"wb");
+    if (flag==2) fdat = fopen ( filename,"wb");
+    if (flag==3) frate = fopen ( filename,"at");
+    if (flag==4) fcur = fopen ( filename,"at");
 //	if (flag==6) fcuco = fopen ( filename,"at");
-	if (flag==5) fped = fopen ( filename,"wt");
+    if (flag==5) fped = fopen ( filename,"wt");
 
-	printf("<OpenFile>(BSM#%02d)::OPEN fname=%s\n",Number,filename);
+    printf("<OpenFile>(BSM#%02d)::OPEN fname=%s\n",Number,filename);
 
-return 1;
+    return 1;
 }
 //====================================================================
 int IO_device::CloseFile(void)
 {
-int kk=0;
+    int kk=0;
 
-	if (active==0) return -1;
+    if (active==0) return -1;
 
-	if(fdat!=NULL) {
-	    kk=fclose(fdat);
-	    printf("CLOSE fdat=%s  (BSM#%02d)\n",filename,Number);
-	}
-return kk;
+    if(fdat!=NULL)
+    {
+        kk=fclose(fdat);
+        printf("CLOSE fdat=%s  (BSM#%02d)\n",filename,Number);
+    }
+    return kk;
 }
 //====================================================================
 //====================================================================
