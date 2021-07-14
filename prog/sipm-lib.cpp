@@ -1,3 +1,5 @@
+/// \file sipm-lib.cpp
+/// \brief Реализация функций для класса SIPM_device
 //==========================================================
 int SIPM_device::RequestDisable(int ch,int nreq)
 {

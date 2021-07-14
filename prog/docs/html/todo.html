@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SiPM_prog: Список задач</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SiPM_prog
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">Список задач </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><dl class="reflist">
+<dt><a class="anchor" id="_todo000001"></a>Файл <a class="el" href="acc__thread_8c.html">acc_thread.c</a>  </dt>
+<dd>Переделать под все кластеры SIPM[i], заменить 0 на id_host  </dd>
+<dt><a class="anchor" id="_todo000005"></a>Глобальный <a class="el" href="accusition_8c.html#ada28b489d72b54d7ec3ff0f22f486ee7">Accusition</a>  (int time, int chan)</dt>
+<dd><p class="startdd">вместо 0 передать ih </p>
+<p class="enddd">это выполняется после окончания цикла - убрать за цикл  </p>
+</dd>
+<dt><a class="anchor" id="_todo000007"></a>Глобальный <a class="el" href="connect_8c.html#a8503c0332703e6d79089f01b49cf2ea1">Connect_SIPM</a>  (void)</dt>
+<dd>add SIPM[id_host]  </dd>
+<dt><a class="anchor" id="_todo000008"></a>Файл <a class="el" href="main_8cpp.html">main.cpp</a>  </dt>
+<dd>нужно сделать: &ndash; подключает клиентов и выводит на экран ip клиента &ndash; следит за отключением клиентов &ndash; подключать клиентов только с описанными в конфигурационном файле ip </dd>
+<dt><a class="anchor" id="_todo000009"></a>Глобальный <a class="el" href="menu__MAIN_8c.html#ae4bd97b99903f5fd1a91cf9c54977f8d">menu_MAIN</a>  (void)</dt>
+<dd><p class="startdd">Выставить 4 раза??? на 4 управления по 7 SiPM в каждом </p>
+<p class="enddd">Выставить 4 раза??? на 4 (0C, 1C, 2C, 3C) управления по 7 SiPM в каждом  </p>
+</dd>
+<dt><a class="anchor" id="_todo000002"></a>Глобальный <a class="el" href="acc__thread_8c.html#aee0c61f86a34170a028b9aaa77d17799">READ_socket_SIPM</a>  (void *number)</dt>
+<dd><p class="startdd">Добавить считвание второго пакета </p>
+<p>проверку sidi </p>
+<p class="enddd">Добавить считывание второго пакета  </p>
+</dd>
+<dt><a class="anchor" id="_todo000011"></a>Глобальный <a class="el" href="classSIPM__device.html#a8fe4b1c26ae60cfbcba67ee1ad2e32a5">SIPM_device::Level</a>  </dt>
+<dd>дописать в конфиг файл: четыре переменные для выставления питания на 4 семерки на плате для -24 В Читать из конфиг файлов  </dd>
+<dt><a class="anchor" id="_todo000012"></a>Глобальный <a class="el" href="classSIPM__device.html#ab4f0c4ecb0397bda4c7e9fc4266ff739">SIPM_device::SIPM_device</a>  ()</dt>
+<dd>в конструктор включить создание файлов? проверки? </dd>
+</dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>

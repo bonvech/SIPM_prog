@@ -1,4 +1,10 @@
-//====================//================================================
+//====================================================================
+/// \file menu_MAIN.c
+/// \brief main interface menu
+//====================================================================
+
+
+//====================================================================
 /*
 #include "menu_DET.c"
 #include "menu_CLAST.c"
@@ -15,16 +21,14 @@
 //int menu_MAIN(unsigned long nnn)
 int menu_MAIN(void)
 {
-//int Claster;
+    //int Claster;
     int lf=1;
     int key=0;
     int por=0;
     int dtime=2;  //in sec
-//int power=0;
-//int por_hist=0;
-//int jj,h;
-
-
+    //int power=0;
+    //int por_hist=0;
+    //int jj,h;
 
 //	for(int ih=0; ih<NMUONREADY; ih++) {
 
@@ -32,9 +36,6 @@ int menu_MAIN(void)
 //	    MADC[ih].MC_Start();
 //	    MADC[ih].StartData();
 //	}
-
-
-
 
     do
     {

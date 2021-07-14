@@ -1,4 +1,6 @@
 //====================================================================
+/// @file accusition.c
+/// @brief Функция набора данных, следит за набором данных.
 //====================================================================
 //#define EventsPerEndMeasure 100
 //#define EventsPerFile 10
@@ -109,10 +111,10 @@ int Accusition ( int time, int chan )
     {
         if (SIPM[ih].Number == 0) continue;
         id = ih;
-//	    pthread_create ( &thread[SIPM[ih].id], 0, fReadSock_SIPM, &SIPM[ih].id );
-//	    pthread_create ( &SIPM[ih].fRecvThread, 0, fReadSock_SIPM, &SIPM[ih].id );
-//	    pthread_create ( &SIPM[ih].fRecvThread, 0, func, &SIPM[ih].Number );
-//	    pthread_create ( &SIPM[ih].fRecvThread, 0, func, &SIPM[ih].id );
+        //pthread_create ( &thread[SIPM[ih].id], 0, fReadSock_SIPM, &SIPM[ih].id );
+        //pthread_create ( &SIPM[ih].fRecvThread, 0, fReadSock_SIPM, &SIPM[ih].id );
+        //pthread_create ( &SIPM[ih].fRecvThread, 0, func, &SIPM[ih].Number );
+        //pthread_create ( &SIPM[ih].fRecvThread, 0, func, &SIPM[ih].id );
         /// \todo вместо 0 передать ih
         pthread_create(&SIPM[ih].fRecvThread, 0, func, &id);
     }
@@ -184,6 +186,7 @@ int Accusition ( int time, int chan )
 
         //------------------  STOP RUN START  --------------------------------
         //if (time > 0) StopRUN = 1; // для калибровки
+        /// \todo это выполняется после окончания цикла - убрать за цикл
         if (StopRUN)
         {
             printf("Stop RUN\n");
@@ -191,7 +194,7 @@ int Accusition ( int time, int chan )
 
             for(int ih=0; ih<NMUONREADY; ih++)
             {
-		        //SIPM[ih].TriggerDisable_int();
+                //SIPM[ih].TriggerDisable_int();
                 SIPM[ih].TriggerDisable(); /// остановить триггер
                 SIPM[ih].StopData();       /// запрет передавать данные
             }
@@ -222,7 +225,7 @@ int Accusition ( int time, int chan )
 
             qq(33333);
 
-//------------------------
+            //------------------------
             /*
             printf("     !!!  Double !!!\n");
 
@@ -245,7 +248,7 @@ int Accusition ( int time, int chan )
                 SIPM[ih].Stop_socket=1;
             }
             */
-//--------------------------------
+            //--------------------------------
 
             ftime(&Now);
             this_moment=Now.time;
@@ -269,7 +272,7 @@ int Accusition ( int time, int chan )
                 //pthread_kill ( thread[SIPM[ih].id], sig );
                 pthread_kill ( SIPM[ih].fRecvThread, 0 );
                 //pthread_cancel ( thread[HOST[ih].id+NHOSTS] );
-//		    }
+                //    }
             }
             sleep(1);
             qq(2);
@@ -291,8 +294,8 @@ int Accusition ( int time, int chan )
             {
                 if (SIPM[clast].Number==0) continue;
                 SIPM[clast].CloseFile();
-//		    if (ClusterT[clast].fdat!=NULL)
-//			fclose(ClusterT[clast].fdat);
+                //if (ClusterT[clast].fdat!=NULL)
+                //    fclose(ClusterT[clast].fdat);
             }
             qq(10);
         }  //  StopRUN=1;
@@ -304,7 +307,7 @@ int Accusition ( int time, int chan )
         ftime(&Now);
         this_moment=Now.time;
 
-//	    if(this_moment>=last_moment+TimePerControlAndHistogramm) {
+        //if(this_moment>=last_moment+TimePerControlAndHistogramm) {
         if(this_moment >= last_moment+TimePerFile)
         {
             printf("Time Per Control And Histogramm And New Files\n");

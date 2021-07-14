@@ -1,4 +1,5 @@
-
+/// \file ss.c
+/// \brief Функция Init
 
 int Init(void)
 {

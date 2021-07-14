@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SiPM_prog: Файл sipm.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SiPM_prog
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Структуры данных</a> &#124;
+<a href="#define-members">Макросы</a>  </div>
+  <div class="headertitle">
+<div class="title">Файл sipm.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Заголовочный файл для класса <a class="el" href="classSIPM__device.html">SIPM_device</a>.  
+<a href="#details">Подробнее...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="io__check_8h_source.html">io_check.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Граф включаемых заголовочных файлов для sipm.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="sipm_8cpp__incl.png" border="0" usemap="#sipm_8cpp" alt=""/></div>
+<map name="sipm_8cpp" id="sipm_8cpp">
+<area shape="rect" id="node2" href="io__check_8h.html" title="базовый класс для общения с любым электронным девайсом " alt="" coords="11,80,97,107"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+Граф файлов, в которые включается этот файл:</div>
+<div class="dyncontent">
+<div class="center"><img src="sipm_8cpp__dep__incl.png" border="0" usemap="#sipm_8cppdep" alt=""/></div>
+<map name="sipm_8cppdep" id="sipm_8cppdep">
+<area shape="rect" id="node2" href="main_8cpp.html" title="Программа для Тунки: " alt="" coords="5,80,80,107"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Структуры данных</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSIPM__device.html">SIPM_device</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Макросы</h2></td></tr>
+<tr class="memitem:a3b891ed257092b08565fa504f0548e87"><td class="memItemLeft" align="right" valign="top"><a id="a3b891ed257092b08565fa504f0548e87"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>__SIPM_H__</b></td></tr>
+<tr class="separator:a3b891ed257092b08565fa504f0548e87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbbcf3c42c997889127cc676754a6fea"><td class="memItemLeft" align="right" valign="top"><a id="abbbcf3c42c997889127cc676754a6fea"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>HOST</b>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:abbbcf3c42c997889127cc676754a6fea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fa2d3bf1901157f734a584d47b25d8b"><td class="memItemLeft" align="right" valign="top"><a id="a3fa2d3bf1901157f734a584d47b25d8b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MASTER</b>&#160;&#160;&#160;2</td></tr>
+<tr class="separator:a3fa2d3bf1901157f734a584d47b25d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2b6b57272450344dd2243ff8d9d3b4f"><td class="memItemLeft" align="right" valign="top"><a id="ac2b6b57272450344dd2243ff8d9d3b4f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>HOST_NEW</b>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:ac2b6b57272450344dd2243ff8d9d3b4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8f5e10b9f780e53f9583724ac965a0c"><td class="memItemLeft" align="right" valign="top"><a id="ab8f5e10b9f780e53f9583724ac965a0c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>HEADER_LEN</b>&#160;&#160;&#160;3</td></tr>
+<tr class="separator:ab8f5e10b9f780e53f9583724ac965a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab07a50f0a8c691175d820b5a439e318a"><td class="memItemLeft" align="right" valign="top"><a id="ab07a50f0a8c691175d820b5a439e318a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ADDR_LEN</b>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:ab07a50f0a8c691175d820b5a439e318a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03a564436a54a892d09371dc85d54108"><td class="memItemLeft" align="right" valign="top"><a id="a03a564436a54a892d09371dc85d54108"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>BFT_LEN</b>&#160;&#160;&#160;2</td></tr>
+<tr class="separator:a03a564436a54a892d09371dc85d54108"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9307135712bf9de2e51fa3daf83d8899"><td class="memItemLeft" align="right" valign="top"><a id="a9307135712bf9de2e51fa3daf83d8899"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>STAT_LEN</b>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:a9307135712bf9de2e51fa3daf83d8899"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5dd4d2e9874e2956c370b24a462b022"><td class="memItemLeft" align="right" valign="top"><a id="ac5dd4d2e9874e2956c370b24a462b022"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>HD</b>&#160;&#160;&#160;0xFFFF</td></tr>
+<tr class="separator:ac5dd4d2e9874e2956c370b24a462b022"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae648915ac8736b9c512a000ce30bd494"><td class="memItemLeft" align="right" valign="top"><a id="ae648915ac8736b9c512a000ce30bd494"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CMD_RD</b>&#160;&#160;&#160;0x80</td></tr>
+<tr class="separator:ae648915ac8736b9c512a000ce30bd494"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac161a45729dbcbd83d9202a73768a125"><td class="memItemLeft" align="right" valign="top"><a id="ac161a45729dbcbd83d9202a73768a125"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CMD_WR</b>&#160;&#160;&#160;0x00</td></tr>
+<tr class="separator:ac161a45729dbcbd83d9202a73768a125"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accd03d70d08e4382b9605079d6831f18"><td class="memItemLeft" align="right" valign="top"><a id="accd03d70d08e4382b9605079d6831f18"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>STAT_OK</b>&#160;&#160;&#160;0x00</td></tr>
+<tr class="separator:accd03d70d08e4382b9605079d6831f18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>Заголовочный файл для класса <a class="el" href="classSIPM__device.html">SIPM_device</a>. </p>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>

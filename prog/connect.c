@@ -1,4 +1,7 @@
 //====================================================================
+/// \file connect.c
+/// \brief Функция Connect_SIPM
+//====================================================================
 /*
 bool Connect_MEGA(void)
 {
@@ -9,14 +12,16 @@ bool Connect_MEGA(void)
 
 	return true;
 }
+
 //====================================================================
 bool UnConnect_MEGA(void)
 {
 	MEGA.UnConnect();
 return true;
 }
+
 //====================================================================
-int Control_Firmware() 
+int Control_Firmware()
 {
 int kkk=0;
 
@@ -40,7 +45,7 @@ int kkk=0;
 	if(IACT_CC.sd_control < 0)
 	{
 		IACT_CC.sd_control = socket(AF_INET, SOCK_STREAM, 0);
-		if(IACT_CC.sd_control < -1) 
+		if(IACT_CC.sd_control < -1)
 		{
 			printf("Unable to create CONTROL socket.\n");
 			return false;
@@ -68,7 +73,7 @@ sleep(1);
 return 1;
 }
 //====================================================================
-int Control_Frequence() 
+int Control_Frequence()
 {
 int kkk=0;
 
@@ -85,6 +90,9 @@ int kkk=0;
 return 1;
 }
 */
+
+//====================================================================
+/// \todo add SIPM[id_host]
 //====================================================================
 bool Connect_SIPM(void)
 {
@@ -124,7 +132,7 @@ bool Connect_SIPM(void)
 //	IACT_CC.Connect(IACT_CC.sd_current,IACT_CC.IPname,3005);
 //	IACT_CC.IsConnected=true;
 //	IACT_CC.Number = 1;
-    
+
 
 
 

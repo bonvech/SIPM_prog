@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SiPM_prog: Файл acc_thread.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SiPM_prog
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Функции</a> &#124;
+<a href="#var-members">Переменные</a>  </div>
+  <div class="headertitle">
+<div class="title">Файл acc_thread.c</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Бесконечный цикл чтения данных  
+<a href="#details">Подробнее...</a></p>
+<div class="textblock"><div class="dynheader">
+Граф файлов, в которые включается этот файл:</div>
+<div class="dyncontent">
+<div class="center"><img src="acc__thread_8c__dep__incl.png" border="0" usemap="#acc__thread_8cdep" alt=""/></div>
+<map name="acc__thread_8cdep" id="acc__thread_8cdep">
+<area shape="rect" id="node2" href="main_8cpp.html" title="Программа для Тунки: " alt="" coords="17,80,91,107"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Функции</h2></td></tr>
+<tr class="memitem:a9b3fb32e305c50b242453b388d49225f"><td class="memItemLeft" align="right" valign="top"><a id="a9b3fb32e305c50b242453b388d49225f"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>GetTime</b> (int Claster, int NumEvent, byte buf[8], int flag)</td></tr>
+<tr class="separator:a9b3fb32e305c50b242453b388d49225f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab236e254d3ab02da39b5b0303283a515"><td class="memItemLeft" align="right" valign="top"><a id="ab236e254d3ab02da39b5b0303283a515"></a>
+long long&#160;</td><td class="memItemRight" valign="bottom"><b>GetDtime</b> (int h, int m, int s, int mls, int mks, int dns)</td></tr>
+<tr class="separator:ab236e254d3ab02da39b5b0303283a515"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee0c61f86a34170a028b9aaa77d17799"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="acc__thread_8c.html#aee0c61f86a34170a028b9aaa77d17799">READ_socket_SIPM</a> (void *number)</td></tr>
+<tr class="separator:aee0c61f86a34170a028b9aaa77d17799"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Переменные</h2></td></tr>
+<tr class="memitem:aca5527913eeb6ec754f773b6ad19b79e"><td class="memItemLeft" align="right" valign="top"><a id="aca5527913eeb6ec754f773b6ad19b79e"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>he</b> =0</td></tr>
+<tr class="separator:aca5527913eeb6ec754f773b6ad19b79e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94bbc6e3d7712df24be96e5e83d0aaf8"><td class="memItemLeft" align="right" valign="top"><a id="a94bbc6e3d7712df24be96e5e83d0aaf8"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>me</b> =0</td></tr>
+<tr class="separator:a94bbc6e3d7712df24be96e5e83d0aaf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c38adef1c309a145b4179ce607df167"><td class="memItemLeft" align="right" valign="top"><a id="a0c38adef1c309a145b4179ce607df167"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>se</b> =0</td></tr>
+<tr class="separator:a0c38adef1c309a145b4179ce607df167"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c762cd5c6b4f5d0b2654970c32be25e"><td class="memItemLeft" align="right" valign="top"><a id="a9c762cd5c6b4f5d0b2654970c32be25e"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>mlse</b> =0</td></tr>
+<tr class="separator:a9c762cd5c6b4f5d0b2654970c32be25e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc78b8940384be6ecb0d7c8b3208f6b7"><td class="memItemLeft" align="right" valign="top"><a id="afc78b8940384be6ecb0d7c8b3208f6b7"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>mkse</b> =0</td></tr>
+<tr class="separator:afc78b8940384be6ecb0d7c8b3208f6b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96f707aba07cd819b24564c70a7201e0"><td class="memItemLeft" align="right" valign="top"><a id="a96f707aba07cd819b24564c70a7201e0"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>dnse</b> =0</td></tr>
+<tr class="separator:a96f707aba07cd819b24564c70a7201e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>Бесконечный цикл чтения данных </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Необходимо сделать:</a></b></dt><dd>Переделать под все кластеры SIPM[i], заменить 0 на id_host </dd></dl>
+</div><h2 class="groupheader">Функции</h2>
+<a id="aee0c61f86a34170a028b9aaa77d17799"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee0c61f86a34170a028b9aaa77d17799">&#9670;&nbsp;</a></span>READ_socket_SIPM()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* READ_socket_SIPM </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>number</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>спит, чтобы передавать управление другим потокам</p>
+<p>чтение 24 байта в буффер (заголовок события) </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Необходимо сделать:</a></b></dt><dd>Добавить считвание второго пакета </dd></dl>
+<p>получены не все 24 байта, дочитать до 24 за 1 сек</p>
+<p>невозможная ситуация (питание пропало, все сгорело)</p>
+<p>получен весь заголовок</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Необходимо сделать:</a></b></dt><dd>проверку sidi </dd></dl>
+<p>print every 10 event to screen</p>
+<p>Дочитать данные</p>
+<p>Если не прочитаны все байты, дочитать</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Необходимо сделать:</a></b></dt><dd>Добавить считывание второго пакета </dd></dl>
+<p>if sz == -1 </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>

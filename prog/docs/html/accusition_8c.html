@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SiPM_prog: Файл accusition.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SiPM_prog
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Функции</a> &#124;
+<a href="#var-members">Переменные</a>  </div>
+  <div class="headertitle">
+<div class="title">Файл accusition.c</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Функция набора данных, следит за набором данных.  
+<a href="#details">Подробнее...</a></p>
+<div class="textblock"><div class="dynheader">
+Граф файлов, в которые включается этот файл:</div>
+<div class="dyncontent">
+<div class="center"><img src="accusition_8c__dep__incl.png" border="0" usemap="#accusition_8cdep" alt=""/></div>
+<map name="accusition_8cdep" id="accusition_8cdep">
+<area shape="rect" id="node2" href="main_8cpp.html" title="Программа для Тунки: " alt="" coords="14,80,89,107"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Функции</h2></td></tr>
+<tr class="memitem:af6083e7ed21320351bbcdae7dab9548a"><td class="memItemLeft" align="right" valign="top"><a id="af6083e7ed21320351bbcdae7dab9548a"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="accusition_8c.html#af6083e7ed21320351bbcdae7dab9548a">Statistica</a> (int por, int dtime)</td></tr>
+<tr class="memdesc:af6083e7ed21320351bbcdae7dab9548a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Считает статистику после набора одной порции данных <br /></td></tr>
+<tr class="separator:af6083e7ed21320351bbcdae7dab9548a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada28b489d72b54d7ec3ff0f22f486ee7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="accusition_8c.html#ada28b489d72b54d7ec3ff0f22f486ee7">Accusition</a> (int time, int chan)</td></tr>
+<tr class="separator:ada28b489d72b54d7ec3ff0f22f486ee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Переменные</h2></td></tr>
+<tr class="memitem:aaca4d8453b4a8c0601f807d8f3501e35"><td class="memItemLeft" align="right" valign="top"><a id="aaca4d8453b4a8c0601f807d8f3501e35"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="accusition_8c.html#aaca4d8453b4a8c0601f807d8f3501e35">TimeForStop</a> = 30</td></tr>
+<tr class="memdesc:aaca4d8453b4a8c0601f807d8f3501e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">sec интервал опроса файла stopRun <br /></td></tr>
+<tr class="separator:aaca4d8453b4a8c0601f807d8f3501e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f516fd0ee8d5c5368523ea29ecdd642"><td class="memItemLeft" align="right" valign="top"><a id="a5f516fd0ee8d5c5368523ea29ecdd642"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="accusition_8c.html#a5f516fd0ee8d5c5368523ea29ecdd642">TimePerFile</a> = 120</td></tr>
+<tr class="memdesc:a5f516fd0ee8d5c5368523ea29ecdd642"><td class="mdescLeft">&#160;</td><td class="mdescRight">время набора данных в один файл <br /></td></tr>
+<tr class="separator:a5f516fd0ee8d5c5368523ea29ecdd642"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac993e14df431c6b60b928e5b3ee68290"><td class="memItemLeft" align="right" valign="top"><a id="ac993e14df431c6b60b928e5b3ee68290"></a>
+void *(*&#160;</td><td class="memItemRight" valign="bottom"><b>func</b> )(void *)</td></tr>
+<tr class="separator:ac993e14df431c6b60b928e5b3ee68290"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>Функция набора данных, следит за набором данных. </p>
+</div><h2 class="groupheader">Функции</h2>
+<a id="ada28b489d72b54d7ec3ff0f22f486ee7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada28b489d72b54d7ec3ff0f22f486ee7">&#9670;&nbsp;</a></span>Accusition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Accusition </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>chan</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Функция набора данных, следит за набором данных. </p><dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">time</td><td></td></tr>
+    <tr><td class="paramname">chan</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Функция чтения данных для параллельного потока</p>
+<p>создать всем кластерам свой поток</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Необходимо сделать:</a></b></dt><dd>вместо 0 передать ih </dd></dl>
+<p>Сбросить счетчики событий кластеро</p>
+<p>&lt; Счетчик событий</p>
+<p>Разрешили триггер</p>
+<p>Разрешили отправлять данные</p>
+<p>Текущее комп время</p>
+<p>Бесконечный цикл чтения данных</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Необходимо сделать:</a></b></dt><dd>это выполняется после окончания цикла - убрать за цикл </dd></dl>
+<p>остановить триггер</p>
+<p>запрет передавать данные</p>
+<p>wait data reading</p>
+<p>&lt; остановить сокет</p>
+<p>Закрыть и убить потоки</p>
+<p>Закрыть все файлы данных</p>
+<p>Считать статистику</p>
+<p>Закрыть старый и открыть новый файл </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>

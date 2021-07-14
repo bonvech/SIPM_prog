@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SiPM_prog: Файл main.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SiPM_prog
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#define-members">Макросы</a> &#124;
+<a href="#func-members">Функции</a> &#124;
+<a href="#var-members">Переменные</a>  </div>
+  <div class="headertitle">
+<div class="title">Файл main.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Программа для Тунки:  
+<a href="#details">Подробнее...</a></p>
+<div class="textblock"><code>#include &lt;sys/types.h&gt;</code><br />
+<code>#include &lt;signal.h&gt;</code><br />
+<code>#include &lt;sys/io.h&gt;</code><br />
+<code>#include &lt;termios.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
+<code>#include &lt;fcntl.h&gt;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;errno.h&gt;</code><br />
+<code>#include &lt;time.h&gt;</code><br />
+<code>#include &lt;math.h&gt;</code><br />
+<code>#include &lt;sys/timeb.h&gt;</code><br />
+<code>#include &lt;netdb.h&gt;</code><br />
+<code>#include &lt;arpa/inet.h&gt;</code><br />
+<code>#include &lt;sys/socket.h&gt;</code><br />
+<code>#include &lt;sys/select.h&gt;</code><br />
+<code>#include &lt;pthread.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="bitslib_8h_source.html">bitslib.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="tools_8h_source.html">tools.h</a>&quot;</code><br />
+<code>#include &quot;create_dir.c&quot;</code><br />
+<code>#include &quot;<a class="el" href="sipm_8cpp.html">sipm.cpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="sipm-lib_8cpp.html">sipm-lib.cpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="sipm__iic-lib_8cpp.html">sipm_iic-lib.cpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="sipm-init_8c.html">sipm-init.c</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="stoprun_8c.html">stoprun.c</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="connect_8c.html">connect.c</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="acc__thread_8c.html">acc_thread.c</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="accusition_8c.html">accusition.c</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="config__read_8c.html">config_read.c</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="menu__MAIN_8c.html">menu_MAIN.c</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Граф включаемых заголовочных файлов для main.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="main_8cpp__incl.png" border="0" usemap="#main_8cpp" alt=""/></div>
+<map name="main_8cpp" id="main_8cpp">
+<area shape="rect" id="node20" href="bitslib_8h.html" title="Функции работы с битами " alt="" coords="1657,80,1723,107"/>
+<area shape="rect" id="node21" href="tools_8h.html" title="Вспомогательные функции " alt="" coords="1747,80,1809,107"/>
+<area shape="rect" id="node22" href="sipm_8cpp.html" title="Заголовочный файл для класса SIPM_device. " alt="" coords="1833,80,1907,107"/>
+<area shape="rect" id="node25" href="sipm-lib_8cpp.html" title="Реализация функций для класса SIPM_device. " alt="" coords="1932,80,2024,107"/>
+<area shape="rect" id="node26" href="sipm__iic-lib_8cpp.html" title="Реализация функций для I2C для класса SIPM_device. " alt="" coords="2049,80,2161,107"/>
+<area shape="rect" id="node27" href="sipm-init_8c.html" title="Функция Init_SIPM. Возможно, атавизм. " alt="" coords="2185,80,2267,107"/>
+<area shape="rect" id="node28" href="stoprun_8c.html" title="функции для окончания набора данных " alt="" coords="2292,80,2368,107"/>
+<area shape="rect" id="node29" href="connect_8c.html" title="Функция Connect_SIPM. " alt="" coords="2392,80,2471,107"/>
+<area shape="rect" id="node30" href="acc__thread_8c.html" title="Бесконечный цикл чтения данных " alt="" coords="2495,80,2592,107"/>
+<area shape="rect" id="node31" href="accusition_8c.html" title="Функция набора данных, следит за набором данных. " alt="" coords="2616,80,2708,107"/>
+<area shape="rect" id="node32" href="config__read_8c.html" title="Чтение конфигурационного файла " alt="" coords="2732,80,2832,107"/>
+<area shape="rect" id="node33" href="menu__MAIN_8c.html" title="main interface menu " alt="" coords="2857,80,2963,107"/>
+<area shape="rect" id="node23" href="io__check_8h.html" title="базовый класс для общения с любым электронным девайсом " alt="" coords="1827,155,1913,181"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Макросы</h2></td></tr>
+<tr class="memitem:a1d4cf5cadb3a692e3b54188b0131dabb"><td class="memItemLeft" align="right" valign="top"><a id="a1d4cf5cadb3a692e3b54188b0131dabb"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>NOT_MEGA</b></td></tr>
+<tr class="separator:a1d4cf5cadb3a692e3b54188b0131dabb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e3d66bf6e02e82a9a0fd125f759b349"><td class="memItemLeft" align="right" valign="top"><a id="a4e3d66bf6e02e82a9a0fd125f759b349"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>NPIN</b>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:a4e3d66bf6e02e82a9a0fd125f759b349"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79de17c9fd8bc852e66b6446bc9bee0f"><td class="memItemLeft" align="right" valign="top"><a id="a79de17c9fd8bc852e66b6446bc9bee0f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>NCLAST</b>&#160;&#160;&#160;100</td></tr>
+<tr class="separator:a79de17c9fd8bc852e66b6446bc9bee0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a295abd3782e96eeb8cdc6aa7ddbf6822"><td class="memItemLeft" align="right" valign="top"><a id="a295abd3782e96eeb8cdc6aa7ddbf6822"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>NPLAT</b>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:a295abd3782e96eeb8cdc6aa7ddbf6822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e9ad0441ab60e69a8b9d23efd7ddde8"><td class="memItemLeft" align="right" valign="top"><a id="a3e9ad0441ab60e69a8b9d23efd7ddde8"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>NCHAN</b>&#160;&#160;&#160;2</td></tr>
+<tr class="separator:a3e9ad0441ab60e69a8b9d23efd7ddde8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39f5f232d3b0120a3674487caa376349"><td class="memItemLeft" align="right" valign="top"><a id="a39f5f232d3b0120a3674487caa376349"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>NDET</b>&#160;&#160;&#160;NPLAT*NCHAN</td></tr>
+<tr class="separator:a39f5f232d3b0120a3674487caa376349"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a664f6b0cdc43e9dd33d4905f2deca6d8"><td class="memItemLeft" align="right" valign="top"><a id="a664f6b0cdc43e9dd33d4905f2deca6d8"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>EventsPerFile</b>&#160;&#160;&#160;100</td></tr>
+<tr class="separator:a664f6b0cdc43e9dd33d4905f2deca6d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeefb9c22d6cb7cc2746082bcb54215bf"><td class="memItemLeft" align="right" valign="top"><a id="aeefb9c22d6cb7cc2746082bcb54215bf"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>EventsPerEndMeasure</b>&#160;&#160;&#160;1000000</td></tr>
+<tr class="separator:aeefb9c22d6cb7cc2746082bcb54215bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35b441b4978b9c3a6b5f0e6c70eb5367"><td class="memItemLeft" align="right" valign="top"><a id="a35b441b4978b9c3a6b5f0e6c70eb5367"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>TimePerHistogramm</b>&#160;&#160;&#160;100</td></tr>
+<tr class="separator:a35b441b4978b9c3a6b5f0e6c70eb5367"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Функции</h2></td></tr>
+<tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
+<tr class="separator:a0ddf1224851353fc92bfbff6f499fa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Переменные</h2></td></tr>
+<tr class="memitem:a6259c87f90ff076612d4ea434ea368a3"><td class="memItemLeft" align="right" valign="top"><a id="a6259c87f90ff076612d4ea434ea368a3"></a>
+struct timeb&#160;</td><td class="memItemRight" valign="bottom"><b>Now</b></td></tr>
+<tr class="separator:a6259c87f90ff076612d4ea434ea368a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a022856aecf76297dfe0ce5690883a06e"><td class="memItemLeft" align="right" valign="top"><a id="a022856aecf76297dfe0ce5690883a06e"></a>
+struct tm&#160;</td><td class="memItemRight" valign="bottom"><b>t</b></td></tr>
+<tr class="separator:a022856aecf76297dfe0ce5690883a06e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5b6b42ba043af1d55e5164a9663fdc1"><td class="memItemLeft" align="right" valign="top"><a id="ac5b6b42ba043af1d55e5164a9663fdc1"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>COINS</b> [NCLAST]</td></tr>
+<tr class="separator:ac5b6b42ba043af1d55e5164a9663fdc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66dd5516b496ec1a932a62339b770433"><td class="memItemLeft" align="right" valign="top"><a id="a66dd5516b496ec1a932a62339b770433"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>Thresh</b> [NCLAST *NDET]</td></tr>
+<tr class="separator:a66dd5516b496ec1a932a62339b770433"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd204b904706a03c2deedb34a121a461"><td class="memItemLeft" align="right" valign="top"><a id="afd204b904706a03c2deedb34a121a461"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>HV</b> [NCLAST *NDET]</td></tr>
+<tr class="separator:afd204b904706a03c2deedb34a121a461"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeab3637ff87c094de3a514e905f140e2"><td class="memItemLeft" align="right" valign="top"><a id="aeab3637ff87c094de3a514e905f140e2"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>LED</b> [NCLAST *NDET]</td></tr>
+<tr class="separator:aeab3637ff87c094de3a514e905f140e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55454581a7c969b74115a4a7d9ad873f"><td class="memItemLeft" align="right" valign="top"><a id="a55454581a7c969b74115a4a7d9ad873f"></a>
+char&#160;</td><td class="memItemRight" valign="bottom"><b>DEFECT</b> [NCLAST][NPLAT][NCHAN]</td></tr>
+<tr class="separator:a55454581a7c969b74115a4a7d9ad873f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dda981b073bf6aec5c3a9be59f0031e"><td class="memItemLeft" align="right" valign="top"><a id="a1dda981b073bf6aec5c3a9be59f0031e"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>ferr</b></td></tr>
+<tr class="separator:a1dda981b073bf6aec5c3a9be59f0031e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94e4542ae1537d9020f07a6f5c706307"><td class="memItemLeft" align="right" valign="top"><a id="a94e4542ae1537d9020f07a6f5c706307"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>ftm</b></td></tr>
+<tr class="separator:a94e4542ae1537d9020f07a6f5c706307"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8228619d70a2b20bd987059e22a8b540"><td class="memItemLeft" align="right" valign="top"><a id="a8228619d70a2b20bd987059e22a8b540"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>ffsum</b></td></tr>
+<tr class="separator:a8228619d70a2b20bd987059e22a8b540"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb1feb2134770534305fae6621e7c34f"><td class="memItemLeft" align="right" valign="top"><a id="adb1feb2134770534305fae6621e7c34f"></a>
+<a class="el" href="classSIPM__device.html">SIPM_device</a>&#160;</td><td class="memItemRight" valign="bottom"><b>SIPM</b> [100]</td></tr>
+<tr class="separator:adb1feb2134770534305fae6621e7c34f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2891fea459e59588bf3acb06f180546e"><td class="memItemLeft" align="right" valign="top"><a id="a2891fea459e59588bf3acb06f180546e"></a>
+byte&#160;</td><td class="memItemRight" valign="bottom"><b>NCLASTREADY</b> =1</td></tr>
+<tr class="separator:a2891fea459e59588bf3acb06f180546e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05295a09af13bf64fbcbee4493bf38dd"><td class="memItemLeft" align="right" valign="top"><a id="a05295a09af13bf64fbcbee4493bf38dd"></a>
+byte&#160;</td><td class="memItemRight" valign="bottom"><b>NMUONREADY</b> =1</td></tr>
+<tr class="separator:a05295a09af13bf64fbcbee4493bf38dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6676c9de4b0141af412c9fee5c8486a4"><td class="memItemLeft" align="right" valign="top"><a id="a6676c9de4b0141af412c9fee5c8486a4"></a>
+word&#160;</td><td class="memItemRight" valign="bottom"><b>h</b></td></tr>
+<tr class="separator:a6676c9de4b0141af412c9fee5c8486a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4ca4869cd187a1ebd6115834a69653a"><td class="memItemLeft" align="right" valign="top"><a id="aa4ca4869cd187a1ebd6115834a69653a"></a>
+word&#160;</td><td class="memItemRight" valign="bottom"><b>m</b></td></tr>
+<tr class="separator:aa4ca4869cd187a1ebd6115834a69653a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad431ec71315b702a0cf94bfda11b6d57"><td class="memItemLeft" align="right" valign="top"><a id="ad431ec71315b702a0cf94bfda11b6d57"></a>
+word&#160;</td><td class="memItemRight" valign="bottom"><b>s</b></td></tr>
+<tr class="separator:ad431ec71315b702a0cf94bfda11b6d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a040ff8f8ce9fff263c65734f3fccc1a1"><td class="memItemLeft" align="right" valign="top"><a id="a040ff8f8ce9fff263c65734f3fccc1a1"></a>
+word&#160;</td><td class="memItemRight" valign="bottom"><b>mls</b></td></tr>
+<tr class="separator:a040ff8f8ce9fff263c65734f3fccc1a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad096636111d7b8a98194b2a4f6f86613"><td class="memItemLeft" align="right" valign="top"><a id="ad096636111d7b8a98194b2a4f6f86613"></a>
+word&#160;</td><td class="memItemRight" valign="bottom"><b>mks</b></td></tr>
+<tr class="separator:ad096636111d7b8a98194b2a4f6f86613"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac206415aa49d80cf2ec2605a06c41482"><td class="memItemLeft" align="right" valign="top"><a id="ac206415aa49d80cf2ec2605a06c41482"></a>
+word&#160;</td><td class="memItemRight" valign="bottom"><b>dns</b></td></tr>
+<tr class="separator:ac206415aa49d80cf2ec2605a06c41482"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae014ac19fcd44e81a438bac7f3db88ce"><td class="memItemLeft" align="right" valign="top"><a id="ae014ac19fcd44e81a438bac7f3db88ce"></a>
+word&#160;</td><td class="memItemRight" valign="bottom"><b>h0</b></td></tr>
+<tr class="separator:ae014ac19fcd44e81a438bac7f3db88ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac645f2e1035f06bcd5319f54472e4ad8"><td class="memItemLeft" align="right" valign="top"><a id="ac645f2e1035f06bcd5319f54472e4ad8"></a>
+word&#160;</td><td class="memItemRight" valign="bottom"><b>m0</b></td></tr>
+<tr class="separator:ac645f2e1035f06bcd5319f54472e4ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae50e728a74ad7f41021d7c6b217d0cc6"><td class="memItemLeft" align="right" valign="top"><a id="ae50e728a74ad7f41021d7c6b217d0cc6"></a>
+word&#160;</td><td class="memItemRight" valign="bottom"><b>s0</b></td></tr>
+<tr class="separator:ae50e728a74ad7f41021d7c6b217d0cc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06cbaf7ce6fd00bf9190554eb0b8918d"><td class="memItemLeft" align="right" valign="top"><a id="a06cbaf7ce6fd00bf9190554eb0b8918d"></a>
+word&#160;</td><td class="memItemRight" valign="bottom"><b>mls0</b></td></tr>
+<tr class="separator:a06cbaf7ce6fd00bf9190554eb0b8918d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bcda59a1646d65ea31270565b83675f"><td class="memItemLeft" align="right" valign="top"><a id="a7bcda59a1646d65ea31270565b83675f"></a>
+long&#160;</td><td class="memItemRight" valign="bottom"><b>tclast0</b></td></tr>
+<tr class="separator:a7bcda59a1646d65ea31270565b83675f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cc475765d0b655f0c16eff882e7f6f1"><td class="memItemLeft" align="right" valign="top"><a id="a1cc475765d0b655f0c16eff882e7f6f1"></a>
+long&#160;</td><td class="memItemRight" valign="bottom"><b>tclast1</b></td></tr>
+<tr class="separator:a1cc475765d0b655f0c16eff882e7f6f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8c7b0b6b1b301e3dc72188258de01c6"><td class="memItemLeft" align="right" valign="top"><a id="ab8c7b0b6b1b301e3dc72188258de01c6"></a>
+long&#160;</td><td class="memItemRight" valign="bottom"><b>tcomp0</b></td></tr>
+<tr class="separator:ab8c7b0b6b1b301e3dc72188258de01c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb959b3a61cb59b9fb4d8724fd08ca15"><td class="memItemLeft" align="right" valign="top"><a id="abb959b3a61cb59b9fb4d8724fd08ca15"></a>
+long&#160;</td><td class="memItemRight" valign="bottom"><b>tcomp1</b></td></tr>
+<tr class="separator:abb959b3a61cb59b9fb4d8724fd08ca15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b9f242206ef1af9b5f7bb1bdea35df6"><td class="memItemLeft" align="right" valign="top"><a id="a8b9f242206ef1af9b5f7bb1bdea35df6"></a>
+long&#160;</td><td class="memItemRight" valign="bottom"><b>dat1</b></td></tr>
+<tr class="separator:a8b9f242206ef1af9b5f7bb1bdea35df6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cf175166e19de803aa08d2475630658"><td class="memItemLeft" align="right" valign="top"><a id="a2cf175166e19de803aa08d2475630658"></a>
+long&#160;</td><td class="memItemRight" valign="bottom"><b>dat2</b></td></tr>
+<tr class="separator:a2cf175166e19de803aa08d2475630658"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a891791adfc526c9db4860d11ef325d46"><td class="memItemLeft" align="right" valign="top"><a id="a891791adfc526c9db4860d11ef325d46"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>mass</b> [2000]</td></tr>
+<tr class="separator:a891791adfc526c9db4860d11ef325d46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d1a3d46bfe9848505fef0d6e0bf7236"><td class="memItemLeft" align="right" valign="top"><a id="a6d1a3d46bfe9848505fef0d6e0bf7236"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>fmass</b></td></tr>
+<tr class="separator:a6d1a3d46bfe9848505fef0d6e0bf7236"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a360d2ef4c46c0d9fe3801ee97feec3c0"><td class="memItemLeft" align="right" valign="top"><a id="a360d2ef4c46c0d9fe3801ee97feec3c0"></a>
+char&#160;</td><td class="memItemRight" valign="bottom"><b>filename</b> [NCLAST][120]</td></tr>
+<tr class="separator:a360d2ef4c46c0d9fe3801ee97feec3c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64acd0b14d7ca913ccd2570db18a392e"><td class="memItemLeft" align="right" valign="top"><a id="a64acd0b14d7ca913ccd2570db18a392e"></a>
+char&#160;</td><td class="memItemRight" valign="bottom"><b>txtname</b> [NCLAST][120]</td></tr>
+<tr class="separator:a64acd0b14d7ca913ccd2570db18a392e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a542d351c98334f1fdb8c3045e56ca0a2"><td class="memItemLeft" align="right" valign="top"><a id="a542d351c98334f1fdb8c3045e56ca0a2"></a>
+char&#160;</td><td class="memItemRight" valign="bottom"><b>histname</b> [NCLAST][120]</td></tr>
+<tr class="separator:a542d351c98334f1fdb8c3045e56ca0a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f8d4a9ef05b3000e5f603ec13354d1f"><td class="memItemLeft" align="right" valign="top"><a id="a7f8d4a9ef05b3000e5f603ec13354d1f"></a>
+char&#160;</td><td class="memItemRight" valign="bottom"><b>filetime</b> [120]</td></tr>
+<tr class="separator:a7f8d4a9ef05b3000e5f603ec13354d1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48c00e1b20af2f2f5bb77998bc631903"><td class="memItemLeft" align="right" valign="top"><a id="a48c00e1b20af2f2f5bb77998bc631903"></a>
+char&#160;</td><td class="memItemRight" valign="bottom"><b>summname</b> [120]</td></tr>
+<tr class="separator:a48c00e1b20af2f2f5bb77998bc631903"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>Программа для Тунки: </p>
+<p>Программа для работы с кластерами SiPM для установки TAIGA в Тункинской долине.</p><ul>
+<li>из аргументов программы получает имя хоста и порт</li>
+<li>по имени хоста связывает соответствующий ip-адрес с сокетом &ndash;<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Необходимо сделать:</a></b></dt><dd>нужно сделать: &ndash; подключает клиентов и выводит на экран ip клиента &ndash; следит за отключением клиентов &ndash; подключать клиентов только с описанными в конфигурационном файле ip</dd></dl>
+</li>
+</ul>
+</div><h2 class="groupheader">Функции</h2>
+<a id="a0ddf1224851353fc92bfbff6f499fa97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ddf1224851353fc92bfbff6f499fa97">&#9670;&nbsp;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>argv</em>[]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>number of SiPM в имени конфиг файл</p>
+<p>Создать все соединения</p>
+<p>Инициализировать все устройства</p>
+<p>Основная программа </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>

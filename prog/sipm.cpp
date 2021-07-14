@@ -1,38 +1,41 @@
+/// \file sipm.cpp
+/// \brief –ó–∞–≥–æ–ª–æ–≤–æ—á–Ω—ã–π —Ñ–∞–π–ª –¥–ª—è –∫–ª–∞—Å—Å–∞ SIPM_device
+/// \class SIPM_device
+
 #ifndef __SIPM_H__
 #define __SIPM_H__
 
-#define HOST   1
-#define MASTER 2
+#define HOST       1
+#define MASTER     2
 #define HOST_NEW   4
 
-#define	HEADER_LEN      3//bytes
-#define	ADDR_LEN		4 //bytes
-#define	BFT_LEN			2// BYTES_FOR_TRANSFER length
-#define	STAT_LEN		1//status bytes
+#define	HEADER_LEN      3   //bytes
+#define	ADDR_LEN		4   //bytes
+#define	BFT_LEN			2   // BYTES_FOR_TRANSFER length
+#define	STAT_LEN		1   //status bytes
 
-#define	HD			0xFFFF//header
+#define	HD			    0xFFFF  //header
 #define	CMD_RD			0x80
 #define	CMD_WR			0x00
-#define STAT_OK                 0x00
+#define STAT_OK         0x00
 
 #include "io_check.h"
 
 class SIPM_device: public IO_device
 {
-public:
+  public:
+    //char IPname[16];
+    //int Port;
+    //int active;
+    //int Number;
+    //int IsConnected;
+    //int IPaddr;
 
-//char IPname[16];
-//int Port;
-//int active;
-//int Number;
-//int IsConnected;
-//int IPaddr;
 
+    //int HVcode[4];
 
-//int HVcode[4];
-
-//int sd_control;
-//int sd_data;
+    //int sd_control;
+    //int sd_data;
 
     int Coin;
     int WinCoin;
@@ -53,10 +56,10 @@ public:
     //int matrix[32][12];
     //int Matrix_Mon[12];
     //int matrix_Mon[12][12];
-    int HVcode[32];  ///<
+    int HVcode[32];  ///< –∫–æ–¥—ã –≤—ã—Å–æ–∫–æ–≥–æ –¥–ª—è –∫–∞–Ω–∞–ª–æ–≤
 
-    /// @todo ƒÓÔËÒ‡Ú¸ ‚  ÓÌÙË„ Ù‡ÈÎ: ˜ÂÚ˚Â ÔÂÂÏÂÌÌ˚Â ‰Îˇ ‚˚ÒÚ‡‚ÎÂÌËˇ ÔËÚ‡ÌËˇ Ì‡ 4 ÒÂÏÂÍË Ì‡ ÔÎ‡ÚÂ ‰Îˇ -24 ¬
-    /// @todo ◊ËÚ‡Ú¸ ËÁ ÍÓÌÙË„ Ù‡ÈÎ‡
+    /// @todo –¥–æ–ø–∏—Å–∞—Ç—å –≤ –∫–æ–Ω—Ñ–∏–≥ —Ñ–∞–π–ª:  —á–µ—Ç—ã—Ä–µ –ø–µ—Ä–µ–º–µ–Ω–Ω—ã–µ –¥–ª—è –≤—ã—Å—Ç–∞–≤–ª–µ–Ω–∏—è –ø–∏—Ç–∞–Ω–∏—è –Ω–∞ 4 —Å–µ–º–µ—Ä–∫–∏ –Ω–∞ –ø–ª–∞—Ç–µ –¥–ª—è -24 –í
+    /// –ß–∏—Ç–∞—Ç—å –∏–∑ –∫–æ–Ω—Ñ–∏–≥ —Ñ–∞–π–ª–æ–≤
 
     int Level;
     int Delay;
@@ -66,9 +69,9 @@ public:
     int EventSz;
     int Stop_socket;
 
-//FILE *fdat, *ferr;
-//char filename[80];
-//char errname[80];
+    //FILE *fdat, *ferr;
+    //char filename[80];
+    //char errname[80];
 
     unsigned int HIST[12][1024];
 
@@ -90,31 +93,33 @@ public:
     int HW_ID;
 
 
-    //SIPM(int NumClust, int sd);//ÍÓÌÒÚÛÍÚÓ ÍÎ‡ÒÒ‡, ‚ ÌÂ„Ó ‚ÍÎ˛˜ËÚ¸ ÒÓÁ‰‡ÌËÂ Ù‡ÈÎÓ‚? ÔÓ‚ÂÍË?
+    //SIPM(int NumClust, int sd);
+    /// –∫–æ–Ω—Å—Ç—Ä—É–∫—Ç–æ—Ä –∫–ª–∞—Å—Å–∞
+    /// \todo –≤ –∫–æ–Ω—Å—Ç—Ä—É–∫—Ç–æ—Ä –≤–∫–ª—é—á–∏—Ç—å —Å–æ–∑–¥–∞–Ω–∏–µ —Ñ–∞–π–ª–æ–≤? –ø—Ä–æ–≤–µ—Ä–∫–∏?
     SIPM_device()
     {
         memcpy(IPname, "192.168.1.201", 16);
         strcpy(TypeName, "SIPM");
 
         Stop_socket=1;
-//		Port = 3001;
-///		Number=0;
+        //Port = 3001;
+        //Number=0;
         Level=0;
         Delay=0;
         Simple=0;
         EventSz=0;
         Mode=0;
 
-//		IsConnected=0;
+        //IsConnected=0;
 
         EventSz=0;
         NumEvents=0L;
         NumBytesFile=0L;
-//		drs_num=0;
+        //drs_num=0;
         /*
-        		for(int i=0;i<4;i++) {
-        		    HVcode[i]=0;
-        		}
+        for(int i=0;i<4;i++) {
+            HVcode[i]=0;
+        }
         */
 
         for(int i=0; i<32; i++)
@@ -132,16 +137,16 @@ public:
             Length[i]=2044;
             ActiveCh[i]=0;
 
-//		    for(int j=0;j<1024;j++) {
-//			cal[i][j]=0;
-//		    }
+           //for(int j=0;j<1024;j++) {
+           //    cal[i][j]=0;
+           //}
         }
 
 
     };
     ~SIPM_device() {};
 
-//==========================================================
+    //==========================================================
     int RequestDisable(int ch,int nreq);
     int RequestEnable(int ch,int nreq) ;
     int PolarnostPlus(int ch,int nreq,int data) ;
@@ -187,47 +192,47 @@ public:
     int GetCurrentTime (word *h, word *m, word *s, word *mls, word *mks, word *dns);
     int Get_Counter_Trigger(int *data1,int *data2) ;
     int Get_Counter_Request(int *data1,int *data2) ;
-//int Check_Frequence ( int *data );
+    //int Check_Frequence ( int *data );
     int Check_Frequence ( void );
     int Check_Serial_ID ( int *data );
     int Check_Board_ID ( int *data );
     int Check_Programm_ID ( int *data );
     int Check_HW_ID ( int *data );
-//===========================================================================
-//==========================================================
+    //===========================================================================
+    //==========================================================
     int InitMinusPower(int RDAC,int comm,int data);
     int SetMinusPower(int RDAC,int comm,int data);
     int InitPlusPower(int RDAC,int comm,int data);
     int SetPlusPower(int RDAC,int comm,int det,int data);
-//==========================================================
-//===========================================================================
-//int DMA_TCP_Blocked ( void );
+    //==========================================================
+    //===========================================================================
+    //int DMA_TCP_Blocked ( void );
     int StopData ( void );
-//int DMA_Buffer_Clear (void );
+    //int DMA_Buffer_Clear (void );
     int ClearData ( void );
-//int MC_Start ( void );
+    //int MC_Start ( void );
     int StartData ( void );
     int MC_Events_Number ( int data );
-//===========================================================================
+    //===========================================================================
     int Get_Proshivka (void);
     int Set_Proshivka_BASE (void);
     int Set_Proshivka_WORK (void);
 
 
     int Init(void);
-//====================================================================
+    //====================================================================
 
     pthread_t fRecvThread;
-//pthread_t fSaveThread;
+    //pthread_t fSaveThread;
 
 
-private:
+  private:
 
-//static void* pRecv(void *parten);
-//static void* pRecv_old(void *parten);
-//static void* pSave(void *parten);
+    //static void* pRecv(void *parten);
+    //static void* pRecv_old(void *parten);
+    //static void* pSave(void *parten);
 
-//byte fHeaderBuffer[1024];
+    //byte fHeaderBuffer[1024];
 
 };
 #endif

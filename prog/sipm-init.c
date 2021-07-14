@@ -1,4 +1,5 @@
-
+/// \file sipm-init.c
+/// \brief Функция Init_SIPM. Возможно, атавизм.
 
 int Init_SIPM(void)
 {

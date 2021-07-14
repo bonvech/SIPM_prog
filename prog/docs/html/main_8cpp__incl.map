@@ -1,0 +1,15 @@
+<map id="main.cpp" name="main.cpp">
+<area shape="rect" id="node20" href="$bitslib_8h.html" title="Функции работы с битами " alt="" coords="1657,80,1723,107"/>
+<area shape="rect" id="node21" href="$tools_8h.html" title="Вспомогательные функции " alt="" coords="1747,80,1809,107"/>
+<area shape="rect" id="node22" href="$sipm_8cpp.html" title="Заголовочный файл для класса SIPM_device. " alt="" coords="1833,80,1907,107"/>
+<area shape="rect" id="node25" href="$sipm-lib_8cpp.html" title="Реализация функций для класса SIPM_device. " alt="" coords="1932,80,2024,107"/>
+<area shape="rect" id="node26" href="$sipm__iic-lib_8cpp.html" title="Реализация функций для I2C для класса SIPM_device. " alt="" coords="2049,80,2161,107"/>
+<area shape="rect" id="node27" href="$sipm-init_8c.html" title="Функция Init_SIPM. Возможно, атавизм. " alt="" coords="2185,80,2267,107"/>
+<area shape="rect" id="node28" href="$stoprun_8c.html" title="функции для окончания набора данных " alt="" coords="2292,80,2368,107"/>
+<area shape="rect" id="node29" href="$connect_8c.html" title="Функция Connect_SIPM. " alt="" coords="2392,80,2471,107"/>
+<area shape="rect" id="node30" href="$acc__thread_8c.html" title="Бесконечный цикл чтения данных " alt="" coords="2495,80,2592,107"/>
+<area shape="rect" id="node31" href="$accusition_8c.html" title="Функция набора данных, следит за набором данных. " alt="" coords="2616,80,2708,107"/>
+<area shape="rect" id="node32" href="$config__read_8c.html" title="Чтение конфигурационного файла " alt="" coords="2732,80,2832,107"/>
+<area shape="rect" id="node33" href="$menu__MAIN_8c.html" title="main interface menu " alt="" coords="2857,80,2963,107"/>
+<area shape="rect" id="node23" href="$io__check_8h.html" title="базовый класс для общения с любым электронным девайсом " alt="" coords="1827,155,1913,181"/>
+</map>
