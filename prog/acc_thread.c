@@ -83,12 +83,23 @@ void* READ_socket_SIPM(void *number)
                     kkk++;
                     if (kkk>1000)
                     {
+                        if((fferr = fopen(errname, "at")) == NULL)
+                        {
+                            printf("Error! FILE %s not open!!\n", errname);
+                        }
+                        else
+                        {
+                            fprintf(fferr, "ERROR::<READ_socket>  SIPM=%i   Not full Header  sz=%i (from 24)  at %i sec\n",
+                               SIPM[0].Number,SumBytes,xxx);
+                            fclose(fferr);
+                        }
+
                         printf("ERROR::<READ_socket>  SIPM=%i   Not full Header  sz=%i (from 24)  at %i sec\n",
                                SIPM[0].Number,SumBytes,xxx);
                         /// невозможная ситуация (питание пропало, все сгорело)
                         xxx ++; // seconds to wait before abort
-                        if(xxx > 20)  abort();
-                        kkk=0;
+                        if(xxx > 100)  abort();
+                        kkk = 0;
                     }
                     usleep(1000);
                 }
@@ -187,9 +198,20 @@ void* READ_socket_SIPM(void *number)
                         kkk++;
                         if (kkk>1000)
                         {
+                            if((fferr = fopen(errname, "at")) == NULL)
+                            {
+                                printf("Error! FILE %s not open!!\n", errname);
+                            }
+                            else
+                            {
+                                fprintf(fferr, "ERROR::<READ_socket>  SIPM=%i   Not full Header  sz=%i (from 24)  at %i sec\n",
+                                    SIPM[0].Number,SumBytes,xxx);
+                                fclose(fferr);
+                            }
+
                             printf("ERROR::<READ_socket>  SIPM=%i   Not full Data  sz=%i (from %i)  at %i sec\n",
                                    SIPM[0].Number,SumBytes,NumBytes, xxx);
-                            if(xxx > 20) abort();
+                            if(xxx > 100) abort();
                             xxx ++; // seconds to wait before abort
                             kkk = 0;
                         }

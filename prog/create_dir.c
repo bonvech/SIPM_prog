@@ -10,7 +10,7 @@ char statfile[80];
 char timefile[80];
 char monitor[80];
 char calibrate[80];
-char errfile[80];
+char errname[80];
 char overfile[80];
 char datafile[80];
 unsigned long nnn=0L;
@@ -135,16 +135,16 @@ int dir_add=1;
 printf("  CREATED  statfile=%s\n",statfile);
 
 
-    strcpy(errfile,pathfile);
-    strcat(errfile,"/sipm_errors.txt");
-//    fferr = fopen(errfile,"a");
+    strcpy(errname,pathfile);
+    strcat(errname,"/sipm_errors.txt");
+//    fferr = fopen(errname,"a");
 //    fprintf (fferr,"\n================================================================================\n");
 //    fprintf (fferr,"\n Program Start:");
 //    fprintf (fferr,"  %02d-%02d-%02d  %02d:%02d:%02d.%03d LT\n",
 //	    t.tm_mday,t.tm_mon,t.tm_year,
 //	    t.tm_hour,t.tm_min,t.tm_sec,Now.millitm);
 //    fclose(fferr);
-printf("  CREATED  errfile =%s\n",errfile);
+printf("  CREATED  errfile =%s\n",errname);
 
     strcpy(overfile,pathfile);
     strcat(overfile,"/sipm_overcur.txt");
