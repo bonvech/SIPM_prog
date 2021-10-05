@@ -10,7 +10,7 @@
 //====================================================================
 
 int TimeForStop = 30;  ///< sec интервал опроса файла stopRun
-int TimePerFile = 120; ///< время набора данных в один файл
+int TimePerFile = 600; ///< время набора данных в один файл (секунд)
 
 //pthread_t thread[200];
 //int sig=0;
@@ -92,7 +92,7 @@ int Accusition ( int time, int chan )
     else
         portion = chan;
 
-    for(int clast=0; clast<NMUONREADY; clast++)
+    for(int clast=0; clast < NMUONREADY; clast++)
     {
         if (SIPM[clast].Number==0) continue;
         if (time==0)
@@ -176,13 +176,18 @@ int Accusition ( int time, int chan )
     if (time>0) TimeForStop=time;
 
     /// Бесконечный цикл чтения данных
-    while (!StopRUN)
+    while (!StopRUN) // пока не 1; бесконечный цикл при 0
     {
+        // wait some time
         sleep(TimeForStop);
         //sleep(60);
 
         NB((char*)"TIME!!!");
-        StopRUN = GetStopRun(1);  //stoprun.c
+        // Чтобы не выключалось в конце суток
+        //StopRUN = GetStopRun(1);  //stoprun.c
+        StopRUN = 0;
+        if(portion >= 1000) // 1000
+            StopRUN = 1;
 
         //------------------  STOP RUN START  --------------------------------
         //if (time > 0) StopRUN = 1; // для калибровки
@@ -251,7 +256,7 @@ int Accusition ( int time, int chan )
             //--------------------------------
 
             ftime(&Now);
-            this_moment=Now.time;
+            this_moment = Now.time;
             printf("Stop Socket at:   ");
             printf("%s",(char*)ctime(&Now.time));
 
@@ -301,11 +306,11 @@ int Accusition ( int time, int chan )
         }  //  StopRUN=1;
 
         if ( StopRUN ) continue;
-
-
         //------------------  STOP RUN FINISH  -------------------------------
+
+        // main work
         ftime(&Now);
-        this_moment=Now.time;
+        this_moment = Now.time;
 
         //if(this_moment>=last_moment+TimePerControlAndHistogramm) {
         if(this_moment >= last_moment+TimePerFile)
