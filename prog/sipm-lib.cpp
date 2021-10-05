@@ -453,6 +453,7 @@ int SIPM_device::Init(void)
     {
         if (ich<12) RequestEnable(ich,0);
         else RequestDisable(ich,0);
+        //RequestEnable(ich,0);
 
         DataSmooth(ich,0,Smooth[ich]);
         DataOffset(ich,0,Offset[ich]);
@@ -466,7 +467,8 @@ int SIPM_device::Init(void)
 
     }
 
-    Maska(0xfff,0x0);
+    //Maska(0xfff,0x0);
+    Maska(0xffff, 0xffff);
 
     Coinsidence(0x1);
 
@@ -474,8 +476,8 @@ int SIPM_device::Init(void)
 
     RequestDelay(0x0);
     DMA_Enable();
-    TriggerEnable();
-//		TriggerDisable();
+//    TriggerEnable();
+    TriggerDisable();
     return 1;
 }
 //============================================================================

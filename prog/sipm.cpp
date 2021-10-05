@@ -73,7 +73,7 @@ class SIPM_device: public IO_device
     //char filename[80];
     //char errname[80];
 
-    unsigned int HIST[12][1024];
+    unsigned int HIST[32][1024];
 
     unsigned long NumEventRealy;
     unsigned long NumEvents;

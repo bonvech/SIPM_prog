@@ -40,7 +40,7 @@ int ReadStationInfo(int key)
     int det=0,thl=0,thh=0,off=0,len=0,smo=0,act=0;
     float power=0;
     //int thm=0;
-    int m[12];
+    int m[32];
     int matrix=0;
 
 
@@ -114,7 +114,7 @@ int ReadStationInfo(int key)
 	    if ( strcmp(type,"Thresholds:")==0 ) {
 		fgets(&tmpline[0],max_length,hf);
 		fgets(&tmpline[0],max_length,hf);
-		for(int jj=0;jj<12;jj++) {
+		for(int jj=0;jj<32;jj++) {
 //		    fscanf(hf,"%i%i%i%i%i%i%i",&det,&thl,&thh,&off,&len,&smo,&thm);
 		    fscanf(hf,"%i%i%i%i%i%i%f%i",&det,&thl,&thh,&off,&len,&smo,&power,&act);
 		    SIPM[ii].TH_Low[jj] = thl;
@@ -184,7 +184,7 @@ int ReadStationInfo(int key)
 //	fprintf(ffstat,"      TH_L   TH_H   Offset   Lengt   Smooth   TH_M   Matrix   Matrix_Mon\n");
 	printf("      TH_L   TH_H   Offset   Lengt   Smooth   Power   Active   Matrix\n");
 	fprintf(ffstat,"      TH_L   TH_H   Offset   Lengt   Smooth   Power   Active   Matrix\n");
-	for(int jj=0;jj<12;jj++) {
+	for(int jj=0;jj<32;jj++) {
 //		printf("%3i%7i%7i%9i%8i%8i%8i    0x%X    0x%X\n",jj,
 		printf("%3i%7i%7i%9i%8i%8i%8.2f%8i    0x%X\n",jj,
 		    SIPM[ii].TH_Low[jj], SIPM[ii].TH_High[jj],
