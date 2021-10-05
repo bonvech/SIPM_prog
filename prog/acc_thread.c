@@ -36,6 +36,7 @@ void* READ_socket_SIPM(void *number)
     int SumBytes=0;
     int res=0;
     int kkk=0;
+    int xxx = 0; // seconds to wait before abort
     //struct tm te;
 
     fff = fopen("proba.dat","wb");
@@ -67,6 +68,7 @@ void* READ_socket_SIPM(void *number)
             SumBytes=sz;
             res=0;
             kkk=0;
+            xxx = 1; // seconds to wait before abort
 
             while (SumBytes != 24)
             {
@@ -81,10 +83,12 @@ void* READ_socket_SIPM(void *number)
                     kkk++;
                     if (kkk>1000)
                     {
-                        printf("ERROR::<READ_socket>  SIPM=%i   Not full Header  sz=%i (from 24)  at 1 sec\n",
-                               SIPM[0].Number,SumBytes);
+                        printf("ERROR::<READ_socket>  SIPM=%i   Not full Header  sz=%i (from 24)  at %i sec\n",
+                               SIPM[0].Number,SumBytes,xxx);
                         /// невозможная ситуация (питание пропало, все сгорело)
-                        abort();
+                        xxx ++; // seconds to wait before abort
+                        if(xxx > 20)  abort();
+                        kkk=0;
                     }
                     usleep(1000);
                 }
@@ -167,6 +171,7 @@ void* READ_socket_SIPM(void *number)
                 SumBytes = szd;
                 res=0;
                 kkk=0;
+                xxx = 1;
 
                 while (SumBytes != NumBytes)
                 {
@@ -182,9 +187,11 @@ void* READ_socket_SIPM(void *number)
                         kkk++;
                         if (kkk>1000)
                         {
-                            printf("ERROR::<READ_socket>  SIPM=%i   Not full Data  sz=%i (from %i)  at 1 sec\n",
-                                   SIPM[0].Number,SumBytes,NumBytes);
-                            abort();
+                            printf("ERROR::<READ_socket>  SIPM=%i   Not full Data  sz=%i (from %i)  at %i sec\n",
+                                   SIPM[0].Number,SumBytes,NumBytes, xxx);
+                            if(xxx > 20) abort();
+                            xxx ++; // seconds to wait before abort
+                            kkk = 0;
                         }
                         usleep(1000);
                     }
