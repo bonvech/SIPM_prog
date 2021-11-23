@@ -157,7 +157,7 @@ void* READ_socket_SIPM(void *number)
             if ( !(SIPM[0].NumEventRealy%10) || (SIPM[0].NumEventRealy == 1) )
             {
                 GetTime(Claster,0,buff+12,0);
-                printf("*********  sidi=%i    NumBytes=%i\n",sidi,NumBytes);
+                printf("*********  sidi=%i    NumBytes=%i  EventNum: %ld\n", sidi, NumBytes, NumEvents);
             }
 
             // проверка числа байт

@@ -127,6 +127,7 @@ class SIPM_device: public IO_device
             TH_Low[i]=100;
             TH_High[i]=110;
             Power[i]=0;
+	    Matrix[i] = 0;
         }
 
 

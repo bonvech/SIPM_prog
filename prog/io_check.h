@@ -970,16 +970,16 @@ int IO_device::WR_IIC(int IICaddr, int comm, int Data, int NumBytes, unsigned lo
 //press_any_key();
     }
 
-    if (NumBytes==4)
+   if (NumBytes==4)
     {
         Address = 0L;
 //Address = ( ((Data) << 16) + (comm<<8) + IICaddr) &0xFFFFFFFF;
         Address = ( ( ( ((Data&0xFF)<<8) + (Data>>8) ) << 16) + (comm<<8) + IICaddr) &0xFFFFFFFF;
 //Address = ( ( ( ((Data&0xFF)<<8) + (Data>>8) ) << 8) + (comm<<24) + IICaddr) &0xFFFFFFFF;
 //Address = ( (Data  << 8) + (comm<<24) + IICaddr) &0xFFFFFFFF;
-        printf("Addres = 0x%lX  datasz=%i\n",Address,DataSz);
+        printf("Addres = 0x%lX  datasz=%i  Data=0x%X\n",Address,DataSz,Data);
 //press_any_key();
-    }
+   }
 
 
 CYC:

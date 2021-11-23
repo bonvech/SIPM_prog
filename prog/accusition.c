@@ -9,8 +9,8 @@
 //#include "maska.c"
 //====================================================================
 
-int TimeForStop = 30;  ///< sec интервал опроса файла stopRun
-int TimePerFile = 600; ///< время набора данных в один файл (секунд)
+int TimeForStop = 60; ///< sec интервал опроса файла stopRun
+int TimePerFile = 60; ///< время набора данных в один файл (секунд)
 
 //pthread_t thread[200];
 //int sig=0;

@@ -41,11 +41,11 @@ int menu_MAIN(void)
     {
         printf("\n");
         printf("==================================================\n");
-        printf("\n");
+        //printf("\n");
         printf("                     MAIN MENU:\n");
-        printf("\n");
+        //printf("\n");
         printf("==================================================\n");
-        printf("\n");
+        //printf("\n");
         printf("Select command:\n");
         printf("  0  - Change Thresholds in SIPM*.CNF files and read they\n");
         //	printf("  1  - To Syncronase Time of MEGA-Host by GPS time\n");
@@ -53,9 +53,9 @@ int menu_MAIN(void)
         printf("  3  - Set Minus Power\n");
         printf("  33 - Set Plus Power\n");
         //	printf("  33 - Set ARRAY T133 (Cluster by Cluster)\n");
-        printf("\n");
+        //printf("\n");
         printf("  4  - START RUN\n");
-        printf("\n");
+        //printf("\n");
         //	printf("  5  - START RUN whis full data\n");
         //	printf("\n");
         //	printf("  6  - Get Ampl Calibration of DRS\n");
@@ -73,7 +73,7 @@ int menu_MAIN(void)
         //	printf("  9  - Count Rate & Amlitude Analyzer\n");
         //	printf("  91  - Time of Amlitude Analyzer (default=20sec)\n");
         //	printf("  99  - Time of Amlitude Analyzer (default=20sec)\n");
-        printf("\n");
+        //printf("\n");
         printf("  27 - Exit programm\n");
         printf("==================================================\n");
 /*        printf("  999 - Get Proshivka Versia\n");
@@ -159,7 +159,8 @@ int menu_MAIN(void)
             {
                 //if (idet==7) power=0x7FF0;
                 //else power=0xDAC0;
-                SIPM[0].SetPlusPower(0x0C,0x30,idet,(int)(SIPM[0].Power[idet]*819)); ///< 819 - coef to obtain 0xDAC0
+                //SIPM[0].SetPlusPower(0x0C,0x30,idet,(int)(SIPM[0].Power[idet]*819)); ///< 819 - coef to obtain 0xDAC0
+                SIPM[0].SetPlusPower(0x0C,0x30,idet,(int)(SIPM[0].Power[idet]*13100.8)); ///< 819 - coef to obtain 0xDAC0
             }
 
 //		    SIPM[0].SetPlusPower(0x0C,0x30,0x7FF0);

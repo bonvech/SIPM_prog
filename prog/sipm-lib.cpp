@@ -13,6 +13,8 @@ int SIPM_device::RequestEnable(int ch,int nreq)
 //==========================================================
 int SIPM_device::PolarnostPlus(int ch,int nreq,int data)
 {
+//  data=32 - positive pulse
+// data=0  - negative pulse
     return	WR_IO(3000, 0x80000+nreq+(ch<<12)+0x0, data, 2);
 }
 //==========================================================
@@ -455,6 +457,8 @@ int SIPM_device::Init(void)
         else RequestDisable(ich,0);
         //RequestEnable(ich,0);
 
+	PolarnostPlus(ich,0,32);
+
         DataSmooth(ich,0,Smooth[ich]);
         DataOffset(ich,0,Offset[ich]);
         DataLength(ich,0,Length[ich]);
@@ -467,12 +471,17 @@ int SIPM_device::Init(void)
 
     }
 
+    // !!!! Maska
     //Maska(0xfff,0x0);
     Maska(0xffff, 0xffff);
 
-    Coinsidence(0x1);
+    /// !!! \todo исправить: вместо 1 поставить значение Coinsidence из файла
+//    Coinsidence(0x1);
+    Coinsidence(Coin);
 
-    CoinsidenceWindow(25);
+    /// \todo поставить значение CoinsidenceWindow из файла
+//    CoinsidenceWindow(25);
+    CoinsidenceWindow(WinCoin);
 
     RequestDelay(0x0);
     DMA_Enable();
