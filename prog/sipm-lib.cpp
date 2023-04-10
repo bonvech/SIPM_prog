@@ -1,59 +1,59 @@
 /// \file sipm-lib.cpp
 /// \brief Реализация функций для класса SIPM_device
 //==========================================================
-int SIPM_device::RequestDisable(int ch,int nreq)
+int SIPM_device::RequestDisable(int ch)
 {
-    return	WR_IO(3000, 0x80000+nreq+(ch<<12)+0x0, 0x4, 2); // Request Disable
+    return	WR_IO(3000, 0x80000+(ch<<12)+0x0, 0x4, 2); // Request Disable
 }
 //==========================================================
-int SIPM_device::RequestEnable(int ch,int nreq)
+int SIPM_device::RequestEnable(int ch)
 {
-    return	WR_IO(3000, 0x80000+nreq+(ch<<12)+0x0, 0x0, 2); // Request Enable
+    return	WR_IO(3000, 0x80000+(ch<<12)+0x0, 0x0, 2); // Request Enable
 }
 //==========================================================
-int SIPM_device::PolarnostPlus(int ch,int nreq,int data)
+int SIPM_device::PolarnostPlus(int ch,int data)
 {
 //  data=32 - positive pulse
 // data=0  - negative pulse
-    return	WR_IO(3000, 0x80000+nreq+(ch<<12)+0x0, data, 2);
+    return	WR_IO(3000, 0x80000+(ch<<12)+0x0, data, 2);
 }
 //==========================================================
-int SIPM_device::StopDelay(int ch,int nreq,int data)
+int SIPM_device::StopDelay(int ch,int data)
 {
-    return	WR_IO(3000, 0x80000+nreq+(ch<<12)+0xE, data, 2);
+    return	WR_IO(3000, 0x80000+(ch<<12)+0xE, data, 2);
 }
 //==========================================================
-int SIPM_device::LowThreshold(int ch,int nreq,int data)
+int SIPM_device::LowThreshold(int ch,int data)
 {
-    return	WR_IO(3000, 0x80000+nreq+(ch<<12)+0x10, data+2048, 2);
+    return	WR_IO(3000, 0x80000+(ch<<12)+0x10, data+2048, 2);
 }
 //==========================================================
-int SIPM_device::HighThreshold(int ch,int nreq,int data)
+int SIPM_device::HighThreshold(int ch,int data)
 {
-    return	WR_IO(3000, 0x80000+nreq+(ch<<12)+0x20, data+2048, 2);
+    return	WR_IO(3000, 0x80000+(ch<<12)+0x20, data+2048, 2);
 }
 //==========================================================
-int SIPM_device::ResetAndStartAnalizator(int ch,int nreq,int data)
+int SIPM_device::ResetAndStartAnalizator(int ch,int data)
 {
-    return	WR_IO(3000, 0x80000+nreq+(ch<<12)+0x18, data, 2);
+    return	WR_IO(3000, 0x80000+(ch<<12)+0x18, data, 2);
 }
 //==========================================================
-int SIPM_device::HistogrammTime(int ch,int nreq,int data)
+int SIPM_device::HistogrammTime(int ch,int data)
 {
-    return	WR_IO(3000, 0x80000+nreq+(ch<<12)+0x26, data, 2);
+    return	WR_IO(3000, 0x80000+(ch<<12)+0x26, data, 2);
 }
 //==========================================================
-int SIPM_device::DataSmooth(int ch,int nreq,int data)
+int SIPM_device::DataSmooth(int ch,int data)
 {
-    return	WR_IO(3000, 0x80000+nreq+(ch<<12)+0x28, data, 2);
+    return	WR_IO(3000, 0x80000+(ch<<12)+0x28, data, 2);
 }
 //==========================================================
-int SIPM_device::DataOffset(int ch,int nreq,int data)
+int SIPM_device::DataOffset(int ch,int data)
 {
-    return	WR_IO(3000, 0x80000+nreq+(ch<<12)+0x40, data+8, 2);
+    return	WR_IO(3000, 0x80000+(ch<<12)+0x40, data+8, 2);
 }
 //==========================================================
-int SIPM_device::DataLength(int ch,int nreq,int data)
+int SIPM_device::DataLength(int ch,int data)
 {
     if (data>2048)
     {
@@ -61,15 +61,15 @@ int SIPM_device::DataLength(int ch,int nreq,int data)
         abort();
     }
 
-    WR_IO(3000, 0x80000+nreq+(ch<<12)+0x44, data, 2);
+    WR_IO(3000, 0x80000+(ch<<12)+0x44, data, 2);
 //press_any_key();
     return 1;
 }
 //==========================================================
-int SIPM_device::StatusRequest(int ch,int nreq,int *stat)
+int SIPM_device::StatusRequest(int ch,int *stat)
 {
     int res=0,dat=0;
-    res=RD_IO(3001, 0x80000+nreq+(ch<<12)+0x0, &dat, 2);
+    res=RD_IO(3001, 0x80000+(ch<<12)+0x0, &dat, 2);
     *stat = (int)dat;
     return res;
 }
@@ -453,18 +453,18 @@ int SIPM_device::Init(void)
 //	for(int ich=0;ich<32;ich+=2) {
     for(int ich=0; ich<32; ich++)
     {
-        if (ich<12) RequestEnable(ich,0);
-        else RequestDisable(ich,0);
-        //RequestEnable(ich,0);
+        if (ich<12) RequestEnable(ich);
+        else RequestDisable(ich);
+        //RequestEnable(ich);
 
-	PolarnostPlus(ich,0,32);
+	PolarnostPlus(ich,32);
 
-        DataSmooth(ich,0,Smooth[ich]);
-        DataOffset(ich,0,Offset[ich]);
-        DataLength(ich,0,Length[ich]);
-        StopDelay(ich,0,512);
-        LowThreshold(ich,0,TH_Low[ich]);
-        HighThreshold(ich,0,TH_High[ich]);
+        DataSmooth(ich,Smooth[ich]);
+        DataOffset(ich,Offset[ich]);
+        DataLength(ich,Length[ich]);
+        StopDelay(ich,512);
+        LowThreshold(ich,TH_Low[ich]);
+        HighThreshold(ich,TH_High[ich]);
 
         printf("ch=%i  TH_Low=%i   TH_High=%i  Offset=%i  Length=%i  Smooth=%i\n",
                ich,TH_Low[ich],TH_High[ich],Offset[ich],Length[ich],Smooth[ich]);
@@ -479,6 +479,7 @@ int SIPM_device::Init(void)
 //    Coinsidence(0x1);
     Coinsidence(Coin);
 
+//    GetCionsidence();
     /// \todo поставить значение CoinsidenceWindow из файла
 //    CoinsidenceWindow(25);
     CoinsidenceWindow(WinCoin);
@@ -487,6 +488,405 @@ int SIPM_device::Init(void)
     DMA_Enable();
 //    TriggerEnable();
     TriggerDisable();
+
+int data=0;
+    Check_Serial_ID ( &data );
+    Check_Board_ID ( &data );
+    Check_HW_ID (&data );
+    Check_Programm_ID ( &data );
+
     return 1;
 }
 //============================================================================
+//===========================================================================
+int SIPM_device::Time_Amplitude_Analyzer(int time) 
+{
+return WR_IO(3000, 0x80026, time*1000, 2); // time  <- in mlsec
+}
+//===========================================================================
+int SIPM_device::Start_Amplitude_Analyzer(void) 
+{
+int kk=0;
+
+    for(int ch=0;ch<32;ch++) {
+	kk = WR_IO(3000, 0x80000+(ch<<12)+0x18, 1, 2);
+    }
+/*
+	kk +=WR_IO(3000, 0x90018, 1, 2); // 
+	kk +=WR_IO(3000, 0x9001A, 1, 2); // 
+	kk +=WR_IO(3000, 0x98018, 1, 2); // 
+	kk +=WR_IO(3000, 0x9801A, 1, 2); // 
+
+	kk +=WR_IO(3000, 0xB0018, 1, 2); // 
+	kk +=WR_IO(3000, 0xB001A, 1, 2); // 
+	kk +=WR_IO(3000, 0xB8018, 1, 2); // 
+	kk +=WR_IO(3000, 0xB801A, 1, 2); // 
+
+	kk +=WR_IO(3000, 0xD0018, 1, 2); // 
+	kk +=WR_IO(3000, 0xD001A, 1, 2); // 
+	kk +=WR_IO(3000, 0xD8018, 1, 2); // 
+	kk +=WR_IO(3000, 0xD801A, 1, 2); // 
+*/
+return kk;
+}
+//===========================================================================
+int SIPM_device::Read_Amplitude_Analyzer_old(int kprint, int kfile, int por) 
+{
+int kk=0;
+unsigned long Addr=0L;
+
+	for(int ich=0;ich<32;ich++) {
+	    for(int ib=0;ib<1024;ib++) {
+		HIST[ich][ib]=0;
+	    }
+	}
+
+	for( int ich=7;ich<8;ich++) {
+qq(ich);
+
+//		kk = RD_IO( 3001, 0x100000+(ich<<12)+(0xFFF*ich), HIST[ich], 0x800);
+
+	    for(int ib=0;ib<1024;ib++) {
+
+		Addr = 0x100000+(ich<<12)+(ib*2);
+
+//printf("ich=%i  ib=%i   Addr = %lX\n",ich,ib,Addr);
+
+//		kk = RD_IO( 3001, 0x100000+(ich<<12)+(0xFFF*ich+ib*2), &HIST[ich][ib], 2);
+		kk = RD_IO( 3001, Addr, &HIST[ich][ib], 2);
+if ( HIST[ich][ib]>0 )printf("ch=%i  ib=%i   HIST=%i\n",ich,ib,HIST[ich][ib]);
+
+//press_any_key();
+
+
+	    }
+
+press_any_key();
+	}
+/*
+	kk +=RD_IO ( 3009, 0x80000, HIST[0], 0x800 );
+	kk +=RD_IO ( 3009, 0x82000, HIST[1], 0x800 );
+	kk +=RD_IO ( 3009, 0x88000, HIST[2], 0x800 );
+	kk +=RD_IO ( 3009, 0x8A000, HIST[3], 0x800 );
+
+	kk +=RD_IO ( 3009, 0xA0000, HIST[4], 0x800 );
+	kk +=RD_IO ( 3009, 0xA2000, HIST[5], 0x800 );
+	kk +=RD_IO ( 3009, 0xA8000, HIST[6], 0x800 );
+	kk +=RD_IO ( 3009, 0xAA000, HIST[7], 0x800 );
+
+	kk +=RD_IO ( 3009, 0xC0000, HIST[8], 0x800 );
+	kk +=RD_IO ( 3009, 0xC2000, HIST[9], 0x800 );
+	kk +=RD_IO ( 3009, 0xC8000, HIST[10], 0x800 );
+	kk +=RD_IO ( 3009, 0xCA000, HIST[11], 0x800 );
+*/
+
+if (kfile==1) {
+//	OpenNewFile(pathfile,por,0x1030+kfile);
+	fhist = fopen("hist.dat","wt");
+	if (kfile==2) { 
+	    ftime(&Now);
+	    t=*localtime(&Now.time);
+	    fprintf(fhist,"\n   Start Monitoring at:   %02d:%02d:%02d,%03d\n",
+		t.tm_hour,t.tm_min,t.tm_sec,Now.millitm);
+
+	    fprintf(fhist,"HV:  ");
+	    for(int ich=0;ich<12;ich++) {
+		fprintf(fhist,"%7i",HVcode[ich]);
+	    }
+	    fprintf(fhist,"\n");
+	}
+	for(int ib=0;ib<1024;ib++) {
+	    fprintf(fhist,"%4i ",ib);
+	    for(int ich=0;ich<12;ich++) {
+		fprintf(fhist,"%7i",HIST[ich][ib]);
+	    }
+	    fprintf(fhist,"\n");
+	}
+	fprintf(fhist,"\n");
+	fclose(fhist);
+}
+
+if (kprint) {
+int kkk=0;
+	printf("Amplitude Analyzer:\n");
+
+	printf(" bin     ch1    ch2    ch3    ch4    ch5    ch6    ch7    ch8    ch9   ch10   ch11   ch12\n");
+	for(int ib=0;ib<1024;ib++) {
+	    kkk=0;
+	    for(int ich=0;ich<12;ich++) {
+		if (HIST[ich][ib]>0) kkk++;
+	    }
+	    if (kkk==0) continue;
+	    printf("%4i ",ib);
+	    for(int ich=0;ich<12;ich++) {
+		printf("%7i",HIST[ich][ib]);
+	    }
+	    printf("\n");
+	}
+}
+
+return kk;
+}
+//===========================================================================
+int SIPM_device::Read_Amplitude_Analyzer(int ch, int kprint, int kfile, int por) 
+{
+int kk=0;
+unsigned long Addr=0L;
+int ch_start=0,ch_fin=0;
+
+    if (ch==0) {
+	ch_start = 0;
+	ch_fin = 32;
+    }
+    else {
+	ch_start = ch;
+	ch_fin = ch+1;
+    }
+
+	for(int ich=ch_start;ich<ch_fin;ich++) {
+	    for(int ib=0;ib<1024;ib++) {
+		HIST[ich][ib]=0;
+	    }
+	}
+
+//	for( int ich=7;ich<8;ich++) {
+	for( int ich=ch_start;ich<ch_fin;ich++) {
+qq(ich);
+
+//	    for(int ib=0;ib<1024;ib++) {
+//		Addr = 0x100000+(ich<<12)+(ib*2);
+//		kk = RD_IO( 3001, Addr, &HIST[ich][ib], 2);
+////if ( HIST[ich][ib]>0 )printf("ch=%i  ib=%i   HIST=%i\n",ich,ib,HIST[ich][ib]);
+//	    }
+
+		Addr = 0x100000+(ich<<12);
+		kk = RD_DIM( 3009, Addr, HIST[ich], 1024);
+//press_any_key();
+	}
+/*
+	kk +=RD_IO ( 3009, 0x80000, HIST[0], 0x800 );
+	kk +=RD_IO ( 3009, 0x82000, HIST[1], 0x800 );
+	kk +=RD_IO ( 3009, 0x88000, HIST[2], 0x800 );
+	kk +=RD_IO ( 3009, 0x8A000, HIST[3], 0x800 );
+
+	kk +=RD_IO ( 3009, 0xA0000, HIST[4], 0x800 );
+	kk +=RD_IO ( 3009, 0xA2000, HIST[5], 0x800 );
+	kk +=RD_IO ( 3009, 0xA8000, HIST[6], 0x800 );
+	kk +=RD_IO ( 3009, 0xAA000, HIST[7], 0x800 );
+
+	kk +=RD_IO ( 3009, 0xC0000, HIST[8], 0x800 );
+	kk +=RD_IO ( 3009, 0xC2000, HIST[9], 0x800 );
+	kk +=RD_IO ( 3009, 0xC8000, HIST[10], 0x800 );
+	kk +=RD_IO ( 3009, 0xCA000, HIST[11], 0x800 );
+*/
+
+if (kfile==1) {
+//	OpenNewFile(pathfile,por,0x1030+kfile);
+	fhist = fopen("hist.dat","wt");
+	if (kfile==2) { 
+	    ftime(&Now);
+	    t=*localtime(&Now.time);
+	    fprintf(fhist,"\n   Start Monitoring at:   %02d:%02d:%02d,%03d\n",
+		t.tm_hour,t.tm_min,t.tm_sec,Now.millitm);
+
+	    fprintf(fhist,"HV:  ");
+	    for(int ich=0;ich<32;ich++) {
+		fprintf(fhist,"%7i",HVcode[ich]);
+	    }
+	    fprintf(fhist,"\n");
+	}
+	for(int ib=0;ib<1024;ib++) {
+	    fprintf(fhist,"%4i ",ib);
+	    for(int ich=0;ich<32;ich++) {
+		fprintf(fhist,"%7i",HIST[ich][ib]);
+	    }
+	    fprintf(fhist,"\n");
+	}
+	fprintf(fhist,"\n");
+	fclose(fhist);
+}
+
+if (kprint) {
+int kkk=0;
+	printf("Amplitude Analyzer:\n");
+
+	printf(" bin     ch1    ch2    ch3    ch4    ch5    ch6    ch7    ch8    ch9   ch10   ch11   ch12\n");
+	for(int ib=0;ib<1024;ib++) {
+	    kkk=0;
+	    for(int ich=0;ich<32;ich++) {
+		if (HIST[ich][ib]>0) kkk++;
+	    }
+	    if (kkk==0) continue;
+	    printf("%4i ",ib);
+	    for(int ich=0;ich<32;ich++) {
+		printf("%7i",HIST[ich][ib]);
+	    }
+	    printf("\n");
+	}
+}
+
+return kk;
+}
+//===========================================================================
+/*
+int SIPM_device::Read_Amplitude_Analyzer_by_bytes(void) 
+{
+int kk=0;
+unsigned int data;
+
+
+	for(int ich=0;ich<12;ich++) {
+	    for(int ib=0;ib<1024;ib++) {
+		HIST[ich][ib]=0;
+	    }
+	}
+
+
+
+qq(80);
+	for(int ib=0;ib<0x800;ib+=2) {
+	    data=RD_IO ( 3001, 0x80000+0x0+ib );
+	    HIST[0][ib/2] = data;
+	}
+qq(81);
+	for(int ib=0;ib<0x800;ib+=2) {
+	    data=RD_IO ( 3001, 0x80000+0x800+ib );
+	    HIST[1][ib/2] = data;
+	}
+qq(82);
+	for(int ib=0;ib<0x800;ib+=2) {
+	    data=RD_IO ( 3001, 0x88000+0x1000+ib );
+	    HIST[2][ib/2] = data;
+	}
+qq(83);
+	for(int ib=0;ib<0x800;ib+=2) {
+	    data=RD_IO ( 3001, 0x88000+0x1800+ib );
+	    HIST[3][ib/2] = data;
+	}
+//	for(int ib=0;ib<100;ib++) {
+//	    printf("80000::  %4i %7i\n",ib,HIST[0][ib]);
+//	}
+
+
+qq(84);
+	for(int ib=0;ib<0x800;ib+=2) {
+	    data=RD_IO ( 3001, 0xA0000+ib );
+	    HIST[4][ib/2] = data;
+	}
+qq(85);
+	for(int ib=0;ib<0x800;ib+=2) {
+	    data=RD_IO ( 3001, 0xA0800+ib );
+	    HIST[5][ib/2] = data;
+	}
+qq(86);
+	for(int ib=0;ib<0x800;ib+=2) {
+	    data=RD_IO ( 3001, 0xA8000+ib );
+	    HIST[6][ib/2] = data;
+	}
+qq(87);
+	for(int ib=0;ib<0x800;ib+=2) {
+	    data=RD_IO ( 3001, 0xA8800+ib );
+	    HIST[7][ib/2] = data;
+	}
+
+qq(88);
+	for(int ib=0;ib<0x800;ib+=2) {
+	    data=RD_IO ( 3001, 0xC0000+ib );
+	    HIST[8][ib/2] = data;
+	}
+qq(89);
+	for(int ib=0;ib<0x800;ib+=2) {
+	    data=RD_IO ( 3001, 0xC0800+ib );
+	    HIST[9][ib/2] = data;
+	}
+qq(90);
+	for(int ib=0;ib<0x800;ib+=2) {
+	    data=RD_IO ( 3001, 0xC8000+ib );
+	    HIST[10][ib/2] = data;
+	}
+qq(91);
+	for(int ib=0;ib<0x800;ib+=2) {
+	    data=RD_IO ( 3001, 0xC8800+ib );
+	    HIST[11][ib/2] = data;
+	}
+qq(100);
+	OpenNewFile(pathfile,0,0x1031);
+	for(int ib=0;ib<1024;ib++) {
+	    fprintf(fhist,"%4i ",ib);
+	    if (ib<100) printf("%4i ",ib);
+	    for(int ich=0;ich<12;ich++) {
+		fprintf(fhist,"%7i",HIST[ich][ib]);
+		if (ib<100) printf("%7i",HIST[ich][ib]);
+	    }
+	    fprintf(fhist,"\n");
+	    if (ib<100) printf("\n");
+	}
+	fclose(fhist);
+
+return kk;
+}
+*/
+//===========================================================================
+int SIPM_device::CountRate(int ch, int time,int kprint, int kfile,int por) 
+{
+int data=0;
+float corate;
+int stat=0;
+int ch_start=0,ch_fin=0;
+//int kktime=0;
+
+	printf("\n		Please, wait %i sec:\n\n",time);
+qq(100);
+	Time_Amplitude_Analyzer(time);
+qq(200);
+	Start_Amplitude_Analyzer();
+qq(300);
+/*
+	if (time>=5) {
+	    while {
+		sleep(5);
+		kktime+=5;
+	    } (kktime<time);
+	else
+	    sleep(time+1);
+	}
+*/
+	    sleep(time+2);
+
+if (ch==0) {
+    ch_start = 0;
+    ch_fin = 32;
+}
+else {
+    ch_start = ch;
+    ch_fin = ch+1;
+}
+    
+
+	for(int ich=ch_start;ich<ch_fin;ich++) {
+	    stat=0;
+printf("ch=%i   stat=%i(0x%X)\n",ich,stat,stat);
+	    RD_IO( 3001, 0x80000+(ich<<12), &stat, 2);
+printf("ch=%i   stat=%i(0x%X)\n",ich,stat,stat);
+	    }
+
+
+
+	Read_Amplitude_Analyzer(ch,kprint,kfile,por);
+qq(400);
+	for(int ich=ch_start; ich<ch_fin;ich++) {
+	    data=0;
+	    for(int ib=0;ib<1024;ib++) {
+		data+=HIST[ich][ib];
+	    }
+//	    CoRate[ich]=data/time;
+	    corate=(float)data/(float)time;
+printf("ich=%i   CoRate=%.2f\n",ich+1,corate);
+	}
+
+
+
+
+return 1;
+}
+//==========================================================

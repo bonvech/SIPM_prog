@@ -25,7 +25,7 @@ int menu_MAIN(void)
     int lf=1;
     int key=0;
     int por=0;
-    int dtime=2;  //in sec
+    int dtime=3;  //in sec
     //int power=0;
     //int por_hist=0;
     //int jj,h;
@@ -52,6 +52,7 @@ int menu_MAIN(void)
         //	printf("  2  - To Syncronase Time of MEGA-Host by Computer time\n");
         printf("  3  - Set Minus Power\n");
         printf("  33 - Set Plus Power\n");
+        printf("  6 - Power OFF (codes=0\n");
         //	printf("  33 - Set ARRAY T133 (Cluster by Cluster)\n");
         //printf("\n");
         printf("  4  - START RUN\n");
@@ -60,16 +61,16 @@ int menu_MAIN(void)
         //	printf("\n");
         //	printf("  6  - Get Ampl Calibration of DRS\n");
         //	printf("  7  - Get Optical Length of Fibers\n");
-/*
-        printf("  5  -- Read Amlitude Analyzer (time=%i sec)\n",dtime);
-        printf("  6  -- Monitoring for all channels\n");
-        printf("  66 -- Monitoring from Data\n");
+
+//        printf("  5  -- Read Amlitude Analyzer (time=%i sec)\n",dtime);
+//        printf("  6  -- Monitoring for all channels\n");
+//        printf("  66 -- Monitoring from Data\n");
         printf("  9  -- Count Rate\n");
         printf("  91 -- Time of Count Rate or Amlitude Analyzer (default=%i sec)\n",dtime);
-        printf("\n");
-        printf("  8  - Check Global Frequence\n");
-        printf("\n");
-*/
+//        printf("\n");
+//        printf("  8  - Check Global Frequence\n");
+//        printf("\n");
+
         //	printf("  9  - Count Rate & Amlitude Analyzer\n");
         //	printf("  91  - Time of Amlitude Analyzer (default=20sec)\n");
         //	printf("  99  - Time of Amlitude Analyzer (default=20sec)\n");
@@ -150,21 +151,47 @@ int menu_MAIN(void)
 
         case 33:
             /// Выставить +5 Вольт
-            /// \todo Выставить 4 раза??? на 4 (0C, 1C, 2C, 3C) управления по 7 SiPM в каждом
+            /// \todo Выставить 4 раза??? на 4 (0C, 0D, 0E, 0F) управления по 7 SiPM в каждом
             //for(h=0;h<NMUONREADY;h++) {
-            SIPM[0].InitPlusPower(0x0C,0x40,0x0);
-            SIPM[0].InitPlusPower(0x0C,0x70,0x4);
 
+            SIPM[0].InitPlusPower(0x0C,0x40,0x0);  // for 0 sipm module
+            SIPM[0].InitPlusPower(0x0C,0x70,0x4);  //  for 0 sipm module
+
+            SIPM[0].InitPlusPower(0x0D,0x40,0x0);  // for 1 sipm module
+            SIPM[0].InitPlusPower(0x0D,0x70,0x4);  //  for 2 sipm module
+
+            SIPM[0].InitPlusPower(0x0E,0x40,0x0);  // for 2 sipm module
+            SIPM[0].InitPlusPower(0x0E,0x70,0x4);  //  for 2 sipm module
+
+            SIPM[0].InitPlusPower(0x0F,0x40,0x0);  // for 3 sipm module
+            SIPM[0].InitPlusPower(0x0F,0x70,0x4);  //  for 3 sipm module
+
+
+
+/*
             for(int idet=0; idet<8; idet++)
             {
-                //if (idet==7) power=0x7FF0;
-                //else power=0xDAC0;
-                //SIPM[0].SetPlusPower(0x0C,0x30,idet,(int)(SIPM[0].Power[idet]*819)); ///< 819 - coef to obtain 0xDAC0
-                SIPM[0].SetPlusPower(0x0C,0x30,idet,(int)(SIPM[0].Power[idet]*13100.8)); ///< 819 - coef to obtain 0xDAC0
+               printf("ich = %2i\t ad=%02X  ch=%d\t",idet, 0x0C + idet/8, idet-(idet/8 * 8));
+                SIPM[0].SetPlusPower(0x0C, 0x30, idet,(int)(SIPM[0].Power[idet]*13100.8)); ///< 819 - coef to obtain 0xDAC0    // for 2 sipm module
             }
+*/
+
+
+            for(int idet=0; idet<32; idet++)
+            {
+                printf("ich = %2i\t ad=%02X  ch=%d\t",idet, 0x0C + idet/8, idet-(idet/8 * 8));
+                SIPM[0].SetPlusPower(0x0C + idet/8, 0x30, (int)(idet-(idet/8*8)),(int)(SIPM[0].Power[idet]*13100.8)); ///< 819 - coef to obtain 0xDAC0    // for 2 sipm module
+            }
+
+
+
+
+
+
 
 //		    SIPM[0].SetPlusPower(0x0C,0x30,0x7FF0);
 //
+
 //		    SIPM[0].SetPlusPower(0x0C,0x30,0xDAC0);
 //		    SIPM[0].SetPlusPower(0x0C,0x31,0xDAC0);
 //		    SIPM[0].SetPlusPower(0x0C,0x32,0xDAC0);
@@ -172,7 +199,8 @@ int menu_MAIN(void)
 //		    SIPM[0].SetPlusPower(0x0C,0x34,0xDAC0);
 //		    SIPM[0].SetPlusPower(0x0C,0x35,0xDAC0);
 //		    SIPM[0].SetPlusPower(0x0C,0x36,0xDAC0);
-//
+
+
 //		    SIPM[0].SetPlusPower(0x0C,0x30,0xFFF0);
 //		    SIPM[0].SetPlusPower(0x0C,0x31,0xFFF0);
 //		    SIPM[0].SetPlusPower(0x0C,0x32,0xFFF0);
@@ -193,10 +221,35 @@ int menu_MAIN(void)
             break;
 
 
-//	    case 33:
+	    case 6:
 //		SetArray(nnn,Thresh,HV);  // array.c
 //		SetArray(nnn);  // menu_ARRAY.c
-//	    break;
+
+
+            for(int idet=0; idet<8; idet++)
+            {
+                SIPM[0].SetPlusPower(0x0C,0x30,idet,0); ///< 819 - coef to obtain 0xDAC0    // for 2 sipm module
+            }
+
+            for(int idet=8; idet<16; idet++)
+            {
+                SIPM[0].SetPlusPower(0x0D,0x30,idet-8,0); ///< 819 - coef to obtain 0xDAC0    // for 2 sipm module
+            }
+
+            for(int idet=16; idet<24; idet++)
+            {
+                SIPM[0].SetPlusPower(0x0E,0x30,idet-16,0); ///< 819 - coef to obtain 0xDAC0    // for 2 sipm module
+            }
+
+            for(int idet=24; idet<32; idet++)
+            {
+                SIPM[0].SetPlusPower(0x0F,0x30,idet-24,0); ///< 819 - coef to obtain 0xDAC0    // for 2 sipm module
+            }
+
+
+
+	    key=11;
+	    break;
 
         case 4:
             /// if запустился новый набор данных не выходя из программы
@@ -278,15 +331,10 @@ int menu_MAIN(void)
             for (int h=0; h<NMUONREADY; h++)
             {
 
-                for(int ich=0; ich<12; ich+=2)
+                for(int ich=0; ich<32; ich++)
                 {
-                    SIPM[h].LowThreshold(ich,0,SIPM[h].TH_Low[ich]);
-                    SIPM[h].HighThreshold(ich,0,SIPM[h].TH_High[ich]);
-                }
-                for(int ich=1; ich<12; ich+=2)
-                {
-                    SIPM[h].LowThreshold(ich,4,SIPM[h].TH_Low[ich]);
-                    SIPM[h].HighThreshold(ich,4,SIPM[h].TH_High[ich]);
+                    SIPM[h].LowThreshold(ich,SIPM[h].TH_Low[ich]);
+                    SIPM[h].HighThreshold(ich,SIPM[h].TH_High[ich]);
                 }
             }
             key=11;
@@ -312,25 +360,19 @@ int menu_MAIN(void)
             key=11;
             break;
 
-//	    case 51:
-//		printf("Enter new time for Amplitede Analyzer (int sec)\n");
-//		scanf("%i",&dtime);
-//		key=11;
-//	    break;
-        case 6:
-//		Monitoring(0);  // monitor.c  //  from analizator
-            key=11;
-            break;
-        case 66:
-//		Monitoring(1);  // monitor.c  //  from data
-            key=11;
-            break;
-        case 9:
+	case 9:
             for (int h=0; h<NMUONREADY; h++)
             {
-//		    SIPM[h].CountRate(dtime,0,0,por_hist);
+		    SIPM[h].CountRate(0,dtime,1,1,0);
             }
-//		por_hist++;
+		key=11;
+	    break;
+//        case 6:
+//		Monitoring(0);  // monitor.c  //  from analizator
+//            key=11;
+//            break;
+        case 66:
+//		Monitoring(1);  // monitor.c  //  from data
             key=11;
             break;
         case 91:

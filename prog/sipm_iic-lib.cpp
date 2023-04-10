@@ -31,6 +31,9 @@ int SIPM_device::SetPlusPower(int RDAC,int comm,int det, int data)
 {
 //	WR_IIC(0x2E,0x7, 2,3, 0x021C2E);
 //	WR_IIC(0x2E, 0x1, 0x10F,3,0x0F052E);
+
+//printf("comm=%x   det=%i  \t",comm,det);
+
     WR_IIC(RDAC, comm+det, data,4,0x0);
     return 1;
 }

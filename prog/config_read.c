@@ -129,6 +129,8 @@ int ReadStationInfo(int key)
 		strcpy(type,"#");
 	    }
 
+
+/*
 	    if ( strcmp(type,"Matrix_of_Coinsidence:")==0 ) {
 		fgets(&tmpline[0],max_length,hf);
 		fgets(&tmpline[0],max_length,hf);
@@ -147,6 +149,13 @@ int ReadStationInfo(int key)
 		}
 		strcpy(type,"#");
 	    }  // matrix
+*/
+
+		for(int jj=0;jj<32;jj++) {
+		    SIPM[ii].Matrix[jj] = pow(2,jj);;
+		}
+
+
 
 /*
 	    if ( strcmp(type,"Matrix_for_Monitoring:")==0 ) {

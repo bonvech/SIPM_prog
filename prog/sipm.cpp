@@ -73,7 +73,8 @@ class SIPM_device: public IO_device
     //char filename[80];
     //char errname[80];
 
-    unsigned int HIST[32][1024];
+//    unsigned int HIST[32][1024];
+    int HIST[32][1024];
 
     unsigned long NumEventRealy;
     unsigned long NumEvents;
@@ -148,18 +149,18 @@ class SIPM_device: public IO_device
     ~SIPM_device() {};
 
     //==========================================================
-    int RequestDisable(int ch,int nreq);
-    int RequestEnable(int ch,int nreq) ;
-    int PolarnostPlus(int ch,int nreq,int data) ;
-    int StopDelay(int ch,int nreq,int data) ;
-    int LowThreshold(int ch,int nreq,int data) ;
-    int HighThreshold(int ch,int nreq,int data) ;
-    int ResetAndStartAnalizator(int ch,int nreq,int data) ;
-    int HistogrammTime(int ch,int nreq,int data) ;
-    int DataSmooth(int ch,int nreq,int data) ;
-    int DataOffset(int ch,int nreq,int data) ;
-    int DataLength(int ch,int nreq,int data) ;
-    int StatusRequest(int ch,int nreq,int *stat) ;
+    int RequestDisable(int ch);
+    int RequestEnable(int ch) ;
+    int PolarnostPlus(int ch,int data) ;
+    int StopDelay(int ch,int data) ;
+    int LowThreshold(int ch,int data) ;
+    int HighThreshold(int ch,int data) ;
+    int ResetAndStartAnalizator(int ch,int data) ;
+    int HistogrammTime(int ch,int data) ;
+    int DataSmooth(int ch,int data) ;
+    int DataOffset(int ch,int data) ;
+    int DataLength(int ch,int data) ;
+    int StatusRequest(int ch,int *stat) ;
     int Resolve_Timer(int data) ;
     int Set_Timer ( int t0, int t1, int t2, int t3 );
     int Set_Timer_Zero ( void );
@@ -222,6 +223,13 @@ class SIPM_device: public IO_device
 
     int Init(void);
     //====================================================================
+    int Time_Amplitude_Analyzer(int time);
+    int Start_Amplitude_Analyzer(void);
+    int Read_Amplitude_Analyzer_old(int kprint, int kfile, int por);
+    int Read_Amplitude_Analyzer(int ch,int kprint, int kfile, int por);
+    int Read_Amplitude_Analyzer_by_bytes(void);
+    int CountRate(int ch, int time,int kprint, int kfile,int por);
+//===========================================================================
 
     pthread_t fRecvThread;
     //pthread_t fSaveThread;

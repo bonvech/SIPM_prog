@@ -15,6 +15,7 @@
 #define Fint32	16
 #define Fonly	32
 #define Fiic	64
+#define Fdim	128
 
 
 #include "semaphore.h"
@@ -88,6 +89,7 @@ class IO_device
     int WR_IO(int sidi, unsigned long Address, unsigned long Data, int NumBytes);
     int WR_IO_only(int sidi, unsigned long Address, unsigned long Data, int NumBytes);
     int RD_IO(int sidi, unsigned long Address, int *Data, int NumBytes);
+    int RD_DIM(int sidi, unsigned long Address, int *Data, int NumBytes);
     //int RD_CC(int sidi, unsigned long Address);
 
     /// I2C realization
@@ -155,6 +157,11 @@ int IO_device::IO_check(int flag, int sidi, unsigned long Address, byte *Data, i
     {
         DataSz = 12 + NumBytes;
     }
+    if (flag==Fdim)
+    {
+        DataSz = 12 + 2;
+qq(Fdim);
+    }
 
     if (flag==Frs45) DataSz = 9;
 
@@ -173,6 +180,12 @@ int IO_device::IO_check(int flag, int sidi, unsigned long Address, byte *Data, i
     data[6] = (rr&0xFF00)>>8;
     data[7] = (rr&0xFF);
 
+
+    if (flag==Fdim)
+    {
+        memcpy(&data[8],&Address,4);
+        if (NumBytes>0) memcpy(&data[12],&NumBytes,2);
+    }
 
     if (flag==Fbase)
     {
@@ -1177,6 +1190,59 @@ CYC:
     {
         dat=((buf[1]&0xff)<<8)+(buf[0]&0xff);
         *Data = dat;
+    }
+
+
+//printf("res=%i  buf[0]=%x  buf[1]=%x   dat=%x\n",res,buf[0],buf[1],dat);
+    return res;
+}
+//====================================================================
+//int IO_device::RD_IO(int sidi, unsigned long Address)
+int IO_device::RD_DIM(int sidi, unsigned long Address, int *Data, int NumBytes)
+{
+//byte buf[2];
+    int res=0;
+    int kk=0;
+    int dat=0L;
+//int data=0;
+
+    if (active==0) return -1;
+
+//	buf[0] = (Data&0xFF);
+//	buf[1] = (Data&0xFF00)>>8;
+    buf[0] = 0;
+    buf[1] = 0;
+
+CYC:
+    if (kk>1)
+    {
+        printf("ERROR!!!  May be not connect \n");
+        return -1;
+    }
+//	res=RD(sidi, Address, buf, NumBytes, Number, (char*)"IACT_CC");
+//	res=RD(sidi, Address, buf, 0, Number, (char*)"IACT_CC");
+    res=IO_check(Fdim,sidi, Address, buf, NumBytes, sd_control, Number, (char*)TypeName);
+    if (res<0)
+    {
+        kk++;
+//printf("kk=%i\n",kk);
+        dat =-1;
+        *Data = dat;
+        goto CYC;
+    }
+
+    if (res<0)
+    {
+        dat=-1;
+        *Data=dat;
+    }
+    else
+    {
+
+	for(int ii=0;ii<NumBytes*2;ii+=2) {
+	    dat=((buf[ii+1]&0xff)<<8)+(buf[ii]&0xff);
+	    Data[ii/2] = dat;
+	}
     }
 
 

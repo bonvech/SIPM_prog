@@ -3,7 +3,7 @@
 #include <sys/timeb.h>
 //====================================================================
 
-FILE *ffstat, *fftime, *fferr, *ffdat, *ffmnt,*ffcal;
+FILE *ffstat, *fftime, *fferr, *ffdat, *ffmnt,*ffcal, *fhist;
 char pathfile[80];
 char pathrun[80];
 char statfile[80];
